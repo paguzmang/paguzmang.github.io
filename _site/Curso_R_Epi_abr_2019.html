@@ -1,0 +1,2317 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Docente: Pablo Andrés Guzmán" />
+
+
+<title>Análisis de datos con R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Pablo A. Guzmán</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="Recursos.html">Recursos</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="contact.html">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Análisis de datos con <strong>R</strong></h1>
+<h4 class="author">Docente: Pablo Andrés Guzmán</h4>
+<h4 class="date">Curso: Abr - May / 2019 | Maestría en Epidemiología - U.CES</h4>
+
+</div>
+
+
+<style>
+.col-izq{
+  float: left;
+  width: 49%;
+  text-align: left;
+}
+.col-der{
+  float: right;
+  width: 49%;
+  text-align: left;
+}
+</style>
+<hr />
+<p>Curso introductorio sobre el software <code>R</code> (con <code>Rstudio</code>) para análisis de datos con aplicaciones en <strong>Epidemiología</strong>. El material mostrado a continuación considerelo como una guía de contenidos del curso, donde se ordenan y resaltan los temas relevantes en cada sesión.</p>
+<hr />
+<div id="aspectos-generales" class="section level1">
+<h1><span class="header-section-number">1</span> Aspectos generales</h1>
+<div id="introduccion" class="section level2">
+<h2><span class="header-section-number">1.1</span> Introducción</h2>
+<p><a href="https://www.r-project.org/"><code>R</code></a> <span class="citation">(R Core Team, <a href="#ref-rcoreteam2019" role="doc-biblioref">2019</a>)</span> es un software de doble propósito, es un <strong>programa</strong> con comandos mayormente inclinados a estadística y gráficación, pero también es un <strong>lenguaje de programación</strong>. Algunas <em>características</em> del <code>R</code> son:</p>
+<ul>
+<li>Es un software libre.</li>
+<li>Es un software orientado a objetos: todo en <code>R</code> es un objeto.</li>
+<li>Tiene diversas estructuras de objetos (vectores, data.frame, listas, etc.) para <em>almacenar</em> datos haciendolo muy flexible para enfrentar necesidades de campos tan diversos como la estadística, bioinformática, sistemas de información geográfica, epidemiología, genética o ecología.</li>
+<li>Un paquete es un grupo de comandos (objetos) que realizan tareas en un área específica. La distribución base del <code>R</code> viene con un conjunto predeterminado de más de 20 paquetes (<code>stats</code>, <code>graphics</code>, <code>utils</code>, <code>boot</code>, <code>survival</code>, etc.).</li>
+<li>El <code>R</code> tiene una comunidad grande y creciente de usuarios que aportan <a href="https://cran.r-project.org/web/packages/">nuevos paquetes</a>. A menudo, nuevos procedimientos aparecen primero para <code>R</code>. Actualmente existen más de 14000 paquetes disponibles.</li>
+<li>El uso del software se realiza a través de la escritura de código. Esto permite dejar un buen registro de los análisis realizados (investigación reproducible). No obstante, hace que el programa no sea fácil de aprender para el usuario principiante.</li>
+</ul>
+</div>
+<div id="descarga-e-instalacion-de-r-y-rstudio" class="section level2">
+<h2><span class="header-section-number">1.2</span> Descarga e instalación de <code>R</code> y <code>Rstudio</code></h2>
+<p><a href="https://www.rstudio.com/"><code>Rstudio</code></a> es un <em>ambiente de desarrollo integrado</em> (IDE, de sus siglas en ingles) o una <em>interface</em> para trabjar con el <code>R</code> de una forma más amigable. Existen otros programas similares a <code>Rstudio</code> (p.e., <a href="https://sourceforge.net/projects/tinn-r/"><code>TinnR</code></a>, <a href="https://www.gnu.org/software/emacs/"><code>emmacs</code></a>, etc.), no obstante, este es uno de los más recomendados. Finalmente usaremos <code>R</code> a través de <code>Rstudio</code>.</p>
+<p>Es recomendable instalar primero <code>R</code> y luego <code>RStudio</code>. La instalación de <code>R</code> no difiere de la de cualquier otro software convencial. Se <a href="https://www.icesi.edu.co/CRAN/">descarga</a> un instalador para el sistema operativo correspondiente y se ejecuta. El asistente lo guiará a través de la instalación.</p>
+<p>Igualmente, para instalar <code>Rstudio</code>, <a href="https://www.rstudio.com/products/rstudio/download/#download">descargue</a> el instalador (para el sistema operativo correspondiente) y ejecutelo. La instalación requiere permiso de administrador en el computador.</p>
+<p>En este <a href="descargas/Guia_instalacion_software%20R_RStudio.pdf">documento</a> se describe la descarga e instalación de <code>R</code> y <code>Rstudio</code> con detalle.</p>
+<p>Una vez instalado, <code>Rstudio</code> se conecta con <code>R</code> de forma automática, de manera que el usuario no debe hacer nada al respecto.</p>
+</div>
+<div id="espacios-o-ventanas-de-rstudio" class="section level2">
+<h2><span class="header-section-number">1.3</span> Espacios o ventanas de <code>Rstudio</code></h2>
+<p><code>Rstudio</code> es una interface construida para <strong>administrar</strong> una sesión de trabajo con el <code>R</code>. La figura <a href="#fig:esprstudio">1.1</a> muestra los cuatro espacios o ventanas que tiene el programa.</p>
+<div class="figure" style="text-align: center"><span id="fig:esprstudio"></span>
+<img src="images/esprstudio.png" alt="Espacios de `Rstudio`: Script, Consola, Visor de ambiente de trabajo y espacio multipropósito." width="90%" />
+<p class="caption">
+Figure 1.1: Espacios de <code>Rstudio</code>: Script, Consola, Visor de ambiente de trabajo y espacio multipropósito.
+</p>
+</div>
+</div>
+<div id="mi-primer-analisis-en-r" class="section level2">
+<h2><span class="header-section-number">1.4</span> Mi primer análisis en <code>R</code></h2>
+<p>A continuación realizaremos un primer análisis de datos con el objetivo de aprender los siguientes aspectos:</p>
+<ul>
+<li><strong>Administrar una sesión</strong>: ejecución de código <code>R</code> en la consola; observar resultados; gráficos; crear y gestionar objetos; guardar el script, objetos, y gráficos; establecer el directorio de trabajo.</li>
+<li><strong>Sintaxis</strong> de un comando, creación e impresión de objetos.</li>
+<li>Descargar, instalar y activar <strong>librerías</strong>.</li>
+<li>Recuperar y continuar con una <strong>sesión</strong>.</li>
+</ul>
+<div id="datos-para-el-analisis" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> Datos para el análisis</h3>
+<p>El análisis lo realizaremos usando los datos del ejemplo 1.2 de <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span> sobre un estudio <strong>caso-control</strong> realizado para explorar razones que explicaran una tasa de cáncer de pulmón inusualmente alta entre los residentes hombres de la costa de Georgia (EU). El factor de <em>exposición</em> bajo estudio fue el trabajo en astilleros de barcos durante la 2da. Guerra Mundial.</p>
+<ul>
+<li>Los casos, sujetos con diagnóstico de cáncer de pulmón, fueron seleccionados de varios hospitales de la zona y de registros de muerte por esa causa entre 1970 y 1976.</li>
+<li>Los controles fueron seleccionados de admisiones a los mismos hospitales y del mismo período, de pacientes ingresados o muertos por causas diferentes a cáncer de pulmón, cáncer de higado, o cáncer de pulmón crónico.</li>
+</ul>
+<p>Ver <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span> para más detalles sobre la selección de los casos y controles. También se registró el <strong>hábito de fumar</strong> como una variable confusora. Los datos se encuentran en el archivo de excel <code>cancer_astilleros.xlsx</code>. Además, en el script <code>cancer_astilleros_analisis.R</code> se realiza un análisis preliminar de los datos.</p>
+</div>
+<div id="act" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> Actividades</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Cree una carpeta con un nombre alusivo al análisis que realizará. P.e., <code>pulmon_astilleros</code>.</li>
+<li>Descargue los archivos <a href="https://1drv.ms/x/s!AlLSvdV-Fwtugp0TbBXeRXjOOnr92A"><code>cancer_astilleros.xlsx</code></a> y <a href="https://1drv.ms/u/s!AlLSvdV-Fwtugp0P1V4t5vHnC1gP_w"><code>cancer_astilleros_analisis.R</code></a> y guardelos en la carpeta creada en el paso anterior.</li>
+<li>Abra el <code>Rstudio</code> y establezca el <strong>directorio de trabajo</strong>. Para esto vaya al Menu <code>Session</code> <span class="math inline">\(\rightarrow\)</span> <code>Set Working Directory</code> <span class="math inline">\(\rightarrow\)</span> <code>Choose Directory ...</code> y seleccione la carpeta creada en el primer paso.</li>
+<li>Desde el <code>Rstudio</code> abra el script <code>cancer_astilleros_analisis.R</code>.</li>
+<li>Lea el script e inicie enviando cada línea de código a la consola. Cada vez, ponga espacial atención a lo que aparece en la consola y en el visor del ambiente de trabajo.</li>
+<li>Al finalizar guarde la sesión y cierre el <code>Rstudio</code>. Guardar incluye:
+<ul>
+<li>Guardar el script.</li>
+<li>Guardar el espacio de trabajo: objetos</li>
+<li>Guardar las gráficas.</li>
+</ul></li>
+<li>Revise la carpeta creada en el paso (a). Deben estar los archivos guardados.</li>
+<li>Recupere la sesión repitiendo los pasos (c) al (g). En el paso (e) agregue nuevas líneas de código <code>R</code> que realicen los mismos cálculos para fumadores y no fumadores por separado, y ejecutelas en la consola.</li>
+</ol>
+</div>
+</div>
+<div id="ejercicios" class="section level2">
+<h2><span class="header-section-number">1.5</span> Ejercicios</h2>
+<ol style="list-style-type: decimal">
+<li>¿Qué significa establecer el <strong>directorio de trabajo</strong>? Describa una forma de hacerlo.</li>
+<li>Describa los aspectos relevantes en la <strong>sintaxis</strong> de un comando de <code>R</code></li>
+<li>¿Cómo se crea o guarda un objeto? ¿Si quiere imprimir el contenido de un objeto en la consola qué debe hacer?</li>
+<li>¿Qué es un paquete? Mencione al menos un paquete relacionado con epidemiología y de cada paquete mencione al menos un comando que le llame la atención; describa de manera breve para que sirve el comando mencionado</li>
+<li>El archivo <a href="https://1drv.ms/x/s!AlLSvdV-Fwtugp0S62k_svp8ETm0DA"><code>Arthritis.xlsx</code></a> contiene los datos de un ensayo clínico doble ciego donde se investigó un nuevo tratamiento para la artritis rematoidea <span class="citation">(Meyer, Zeileis, &amp; Hornik, <a href="#ref-meyer2017" role="doc-biblioref">2017</a>)</span>. Examine el archivo de excel (metadatos) para una descripción de las variables. Suponga que usted realizará un análisis de estos datos donde comparará la respuesta (<code>improved</code>) entre los dos tratamientos (<code>Placebo</code> y <code>Treated</code>) y para cada género (<code>Female</code> y <code>Male</code>) por separado. Tomando como ejemplo las actividades realizadas <a href="#act">arriba</a>, cree un nuevo script donde importe los datos, revise la estructura de los datos, ejecute un resumen descriptivo de cada variable y realice una tabla de frecuencias entre la respuesta (<code>improved</code>) y el tratamiento (<code>treat</code>). Documente su script y envíelo al correo <a href="mailto:pguzman@ces.edu.co" class="email">pguzman@ces.edu.co</a>.</li>
+</ol>
+</div>
+</div>
+<div id="datos-y-objetos" class="section level1">
+<h1><span class="header-section-number">2</span> Datos y Objetos</h1>
+<div id="tipos-de-datos" class="section level2">
+<h2><span class="header-section-number">2.1</span> Tipos de datos</h2>
+<p><code>R</code> maneja diferentes <strong>tipos</strong> de datos:</p>
+<ul>
+<li><code>numeric</code> (o <code>double</code>): números con decimales. El separador decimal es el punto (independiente de la configuración regional del equipo).</li>
+<li><code>integer</code>: números enteros (ocupan menos espacio de memoria que <code>numeric</code>), pero igualmente son números. La diferencia entre <code>numeric</code> e <code>integer</code> es sutil y para efectos del curso no es importante.</li>
+<li><code>logic</code>: Verdadero (<code>TRUE</code> o <code>T</code>) o Falso (<code>FALSE</code> o <code>F</code>). Resultan de evaluar expresiones lógicas tales como <span class="math inline">\(x &gt; 5\)</span>. Cuando se realizan sumas con datos lógicos, el <code>TRUE</code> se convierte en 1 y el <code>FALSE</code> en 0. Esto es útil para realizar <strong>conteos</strong> de eventos.</li>
+<li><code>character</code>: Texto. Para escribirlo, debe ponerse entre comillas. Sirve para representar variables categóricas.</li>
+<li><code>Date</code>: Datos de fecha. El formato por defecto es aaaa-mm-dd entre comillas.</li>
+<li><code>NA</code>: Indica un dato perdido.</li>
+<li><code>NaN</code>: Aparece cuando un cálculo no se puede realizar. Por ejemplo <span class="math inline">\(\sqrt{-2}\)</span> o <span class="math inline">\(0/0\)</span>.</li>
+<li><code>Inf</code>: Aparece cuando un cálculo tiende a infinito. Por ejemplo <span class="math inline">\(10/0\)</span>.</li>
+<li><code>NULL</code>: Aparece cuando un atributo no existe para un objeto.</li>
+</ul>
+<p>Algunos ejemplos de estos <strong>tipos</strong> de datos se veran a continuación. Cualquiera de estos <strong>tipos</strong> de datos es suceptible de almacenarse en <strong>objetos</strong> tales como vectores, matrices, data.frame y listas.</p>
+</div>
+<div id="tipos-de-objetos" class="section level2">
+<h2><span class="header-section-number">2.2</span> Tipos de Objetos</h2>
+<div id="vectores" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Vectores</h3>
+<p>Un vector es el tipo de objeto más sencillo, pero es la base para formar objetos más complejos como matrices, data.frame y listas. Además muchos argumentos de comandos reciben vectores.</p>
+<p>Un vector permite almacenar datos de <strong>un sólo</strong> tipo (p.e., sólo <code>numeric</code> o sólo <code>logic</code>). Un vector se crea con el comando <code>c</code> (de concatenar). Algunos ejemplos creando vectores son (se omite la impresión):</p>
+<pre class="r"><code># vector numerico con un dato perdido
+x &lt;- c(40, 22, NA, 29.89)
+x
+# vector character
+y &lt;- c(&#39;si&#39;, &#39;si&#39;, &#39;no&#39;, &#39;no&#39;)
+y
+# vector logico
+z &lt;- c(T, F, T, F) 
+z</code></pre>
+<div id="obteniendo-informacion-de-un-vector" class="section level4">
+<h4><span class="header-section-number">2.2.1.1</span> Obteniendo información de un vector</h4>
+<p>Suponga que <code>x</code> es el siguiente vector numérico:</p>
+<pre class="r"><code>x &lt;- c(34, 24.5, 49.8, 34.5, 56.7, 23.4)</code></pre>
+<p>Algunos comandos para obtener información de un vector son los siguientes (se omite el resultado):</p>
+<pre class="r"><code>length(x)        # longitud de x (nro. de datos en x)
+typeof(x)        # tipo de datos en x
+is.vector(x)     # x es un vector?
+is.numeric(x)    # x es numerico?
+is.character(x)  # x es character?
+sum(x)           # suma de los valores en x
+mean(x)          # media de los valores en x
+var(x)           # varianza de los valores en x
+sd(x)            # desv. estandar de los valores en x
+summary(x)       # resumen de los valores en x
+quantile(x)      # cuantiles de los valores en x
+IQR(x)           # rango intercuartilico de los valores en x
+unique(x)        # se generan los valores unicos de un vector
+table(x)         # frecuencia (conteo) de cada valor unico en un vector
+sort(x)          # devuleve el vector ordenado decreciente (por defecto)
+sample(x)        # devuelve el vector desordenado aletoriamente</code></pre>
+</div>
+<div id="operaciones-con-vectores" class="section level4">
+<h4><span class="header-section-number">2.2.1.2</span> Operaciones con vectores</h4>
+<p><code>R</code> es un lenguaje vectorizado. Esto quiere decir que las operaciones aritméticas se aplican a cada elemento del vector automaticamente, sin necesidad de aplicar un ciclo a tráves del vector. Aquí algunos ejemplos (se omite la impresión):</p>
+<pre class="r"><code>x &lt;- c(10, 20, 30)      # se crea un vector numerico 
+x + 5                   # suma 5 a cada elemento de x
+x + x    # sumando dos vectores, elemento a elemento
+2*x      # multiplicando por 2 cada elemento de x
+log(x)   # log natural de cada elemento de x
+log10(x) # log en base 10 de cada elemento de x
+sqrt(x)  # raiz cuadrada de cada elemento de x
+x^2      # elevado a la 2 cada elemento de x
+x^(1/4)  # elevado a la 1/4 (= raiz cuarta)
+exp(x)   # exponencial x de cada elemento de x</code></pre>
+</div>
+<div id="comandos-utiles-para-crear-vectores" class="section level4">
+<h4><span class="header-section-number">2.2.1.3</span> Comandos útiles para crear vectores</h4>
+<p>La expresión <code>:</code> y los comandos <code>seq</code>, <code>rep</code> y <code>paste</code> son útiles para crear vectores con secuencias de números y texto. A continuación algunos ejemplos de su uso (se omite el resultado).</p>
+<pre class="r"><code># Vector con secuencia de 1 en 1
+10:20
+
+# Creando vector con secuencia personalizada
+seq(from = 10, to = 40, by = 10)
+
+# Vector con patrones de repeticion:
+rep(x = 4, each = 5)            # repite el 4 cinco veces
+rep(x = c(4,3), each  = 5)      # repite el 4 y 3 cinco veces
+rep(x = c(4,3), times = 5)      # repite el 4 y 3 cinco veces
+rep(x = c(&#39;a&#39;, &#39;b&#39;), times = 5) # repite la &#39;a&#39; y &#39;b&#39; cinco veces
+
+# Pegar texto:
+paste(&#39;Hello&#39;, c(&#39;R&#39;, &#39;spss&#39;), sep = &#39; &#39;)</code></pre>
+<p>Los comandos <code>runif</code>, <code>rnorm</code>, <code>rbinom</code> y <code>rpois</code> generan vectores de números aleatorios desde los modelos de probabilidad <em>uniforme</em>, <em>normal</em>, <em>binomial</em> y <em>poisson</em> respectivamente. Son últiles para simular la generación de una muestra aleatoria de valores (Nota: la generación de números aleatorios desde un modelo de probabilidad es la base de los métodos monte carlo y bootstrap). Por ejemplo, a continuación se genera una muestra aleatoria de un modelo normal con media 50 (<span class="math inline">\(\mu = 50\)</span>) y desviación estándar 10 (<span class="math inline">\(\sigma = 10\)</span>).</p>
+<pre class="r"><code># Se generan 10 numeros aleatorios desde una poblacion
+# normal con media 50 y de 10
+datos_norm &lt;- rnorm(n = 10, mean = 50, sd = 10)
+datos_norm</code></pre>
+<pre><code> [1] 56.43278 42.64167 36.46092 42.57340 44.68544 41.72102 45.51334
+ [8] 57.51294 56.69843 48.99592</code></pre>
+</div>
+</div>
+<div id="factores" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Factores</h3>
+<p>Un <code>factor</code> es similar a un vector de texto (<code>character</code>). Sin embargo, un <code>factor</code> reconoce niveles o categorías de forma explícita. Es ideal para representar variables categóricas que serán incluidas en un análisis de datos categóricos o para variables categóricas que participan en modelos tales como una regresión logística.</p>
+<p>Un factor permite controlar el orden de las categorías, de hecho se pueden declarar factores <code>ordered</code> para variables categóricas ordinales. Además el uso de factores permite definir fácilmente contrastes entre sus niveles o establecer un nivel de referencia contra el cual se compararan los demas niveles.</p>
+<p>Un <code>factor</code> se crea con el comando del mismo nombre. Aquí un ejemplo:</p>
+<pre class="r"><code># Se crea un vector character:
+improved &lt;- c(&#39;Marked&#39;, &#39;Marked&#39;, &#39;None&#39;, &#39;Some&#39;, &#39;Some&#39;, &#39;Marked&#39;)
+class(improved)   # se pregunta por la clase de x</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Se convierte en un factor
+improvedf &lt;- factor(improved)  # se convierte en un factor
+improvedf          # note como se imprime en la consola</code></pre>
+<pre><code>[1] Marked Marked None   Some   Some   Marked
+Levels: Marked None Some</code></pre>
+<div id="obteniendo-informacion-de-un-factor" class="section level4">
+<h4><span class="header-section-number">2.2.2.1</span> Obteniendo información de un <code>factor</code></h4>
+<p>Algunos comandos útiles para obtener información de un factor son (se omite el resultado):</p>
+<pre class="r"><code>is.factor(improvedf)   # se pregunta si es un factor
+class(improvedf)       # la clase
+levels(improvedf)      # se pregunta por los niveles del factor
+summary(improvedf)     # se resumen un factor (tabla de frecuencias)</code></pre>
+</div>
+<div id="controlando-el-orden-de-los-niveles-de-un-factor" class="section level4">
+<h4><span class="header-section-number">2.2.2.2</span> Controlando el orden de los niveles de un factor</h4>
+<p>Con el comando <code>factor</code> se puede controlar el orden de los niveles. Utilice el argumento <code>levels</code> para específicar en que orden quiere los niveles. Un ejemplo es:</p>
+<pre class="r"><code># Se convierte en factor, pero controlando el orden  de los niveles
+improvedf &lt;- factor(improved, levels = c(&#39;None&#39;, &#39;Some&#39;, &#39;Marked&#39;))
+improvedf</code></pre>
+<pre><code>[1] Marked Marked None   Some   Some   Marked
+Levels: None Some Marked</code></pre>
+<pre class="r"><code>levels(improvedf)</code></pre>
+<pre><code>[1] &quot;None&quot;   &quot;Some&quot;   &quot;Marked&quot;</code></pre>
+<p><strong>Advertencia</strong>: En el argumento <code>levels</code> debe escribir los nombres de los niveles tal cual como aparecen en el vector. Si los escribe diferente, cuando <code>factor</code> haga la conversión, generará <code>NA</code>. Aquí un ejemplo donde los niveles <code>None</code> y <code>Marked</code> se escriben mal:</p>
+<pre class="r"><code># Se convierte en factor, pero controlando el orden  de los niveles
+factor(improved, levels = c(&#39;none&#39;, &#39;Some&#39;, &#39;Marke&#39;))</code></pre>
+<pre><code>[1] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; Some Some &lt;NA&gt;
+Levels: none Some Marke</code></pre>
+<p>Otra forma de <em>reordenar</em> los niveles de un <code>factor</code> es usando el comando <code>relevel</code>. Este comando permite especificar cual nivel se quiere de primero y los demas se corren después de él. Tradicionalmente al primer nivel se le llama el <strong>nivel de referencia</strong> puesto que contra este se comparan los otros niveles al calcular alguna medida de efecto tal como una razón de odds o un riesgo relativo. Enseguida un ejemplo:</p>
+<pre class="r"><code>relevel(improvedf, ref = &#39;Marked&#39;)</code></pre>
+<pre><code>[1] Marked Marked None   Some   Some   Marked
+Levels: Marked None Some</code></pre>
+<p>Note en la impresión que el nivel <code>Marked</code> quedo de primero. Luego en alguna pruebe de hipótesis, este será el nivel de referencia.</p>
+</div>
+<div id="cambiando-las-etiquetes-de-los-niveles-de-un-factor" class="section level4">
+<h4><span class="header-section-number">2.2.2.3</span> Cambiando las etiquetes de los niveles de un factor</h4>
+<p>Además, con el comando <code>factor</code> se pueden cambiar las etiquetes de los niveles del factor. Esto se hace con el argumento <code>labels</code>. Un ejemplo es:</p>
+<pre class="r"><code># Se convierte en factor, controlando el orden de los niveles
+# y cambiando las etiquetes de los niveles.
+improvedf &lt;- factor(improved, levels = c(&#39;None&#39;, &#39;Some&#39;, &#39;Marked&#39;),
+                    labels = c(&#39;Ninguna&#39;, &#39;Alguna&#39;, &#39;Fuerte&#39;))
+improvedf</code></pre>
+<pre><code>[1] Fuerte  Fuerte  Ninguna Alguna  Alguna  Fuerte 
+Levels: Ninguna Alguna Fuerte</code></pre>
+</div>
+<div id="conviertiendo-un-factor-en-character-o-numeric" class="section level4">
+<h4><span class="header-section-number">2.2.2.4</span> Conviertiendo un <code>factor</code> en <code>character</code> o <code>numeric</code></h4>
+<p>En ocasiones queremos convertir un factor en un vector <code>character</code> o <code>numeric</code>. Aquí como hacerlo:</p>
+<pre class="r"><code>improvedc &lt;- as.character(improvedf)   # factor a character
+class(improvedc)</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
+<pre class="r"><code>improvedn &lt;- as.numeric(improvedf)     # factor a numerico
+class(improvedn)</code></pre>
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+</div>
+<div id="com.factores" class="section level4">
+<h4><span class="header-section-number">2.2.2.5</span> Comandos que producen factores</h4>
+<p>El comando <code>cut</code> permite dividir una variable numérica en intervalos (categorías), y entrega un <code>factor</code>. Por ejemplo, considere el siguiente vector numérico que representa los datos de alguna variable:</p>
+<pre class="r"><code>x &lt;- c(34, 24.5, 49.8, 34.5, 56.7, 23.4)</code></pre>
+<p>Supona que se requiere convertir esta variable numérica en categórica dividiendola en tres intervalos:</p>
+<pre class="r"><code>xf &lt;- cut(x, breaks = c(23, 27, 40, 60))
+xf</code></pre>
+<pre><code>[1] (27,40] (23,27] (40,60] (27,40] (40,60] (23,27]
+Levels: (23,27] (27,40] (40,60]</code></pre>
+<pre class="r"><code>class(xf)</code></pre>
+<pre><code>[1] &quot;factor&quot;</code></pre>
+</div>
+</div>
+<div id="matrices" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Matrices</h3>
+<p>Una matriz (<code>matrix</code>) es un arreglo de datos de <strong>un sólo tipo</strong> en dos dimensiones (filas y columnas). Enseguida, dos formas de crear una matriz:</p>
+<pre class="r"><code># Creando una matriz con &#39;matrix&#39;:
+X &lt;- matrix(data = c(10, 20, 30, 40), byrow = F, nrow = 2)
+X</code></pre>
+<pre><code>     [,1] [,2]
+[1,]   10   30
+[2,]   20   40</code></pre>
+<pre class="r"><code># Creando una matriz con &#39;cbind&#39;:
+Y &lt;- cbind(c(10,20), 
+           c(30,40))</code></pre>
+<p>Una matriz se puede considerar como un vector al cual se le asigna una <code>dim</code>ensión:</p>
+<pre class="r"><code>X &lt;- c(10, 20, 30, 40)   # se crea un vector numerico
+dim(X) &lt;- c(2,2)         # se asigna una dimension: 2 filas, 2 columnas
+X                        # observe que X ya es una matriz </code></pre>
+<pre><code>     [,1] [,2]
+[1,]   10   30
+[2,]   20   40</code></pre>
+<div id="agregando-nombres-de-fila-y-de-columna" class="section level4">
+<h4><span class="header-section-number">2.2.3.1</span> Agregando nombres de fila y de columna</h4>
+<p>Una matriz permite tener como <strong>atributos</strong> nombres de fila y de columna. A continuación algunas formas de asignar nombres a filas y columnas:</p>
+<pre class="r"><code># Se crea una matriz asignando nombres de columna:
+Y &lt;- cbind(w = c(10,20), 
+           z = c(30,40))
+Y</code></pre>
+<pre><code>      w  z
+[1,] 10 30
+[2,] 20 40</code></pre>
+<pre class="r"><code># Se asginan nombres de fila y columna a la matriz X:
+rownames(X) &lt;- c(&#39;A&#39;, &#39;B&#39;)
+colnames(X) &lt;- c(&#39;w&#39;, &#39;z&#39;)
+X</code></pre>
+<pre><code>   w  z
+A 10 30
+B 20 40</code></pre>
+</div>
+<div id="obteniendo-informacion-de-una-matriz" class="section level4">
+<h4><span class="header-section-number">2.2.3.2</span> Obteniendo información de una matriz</h4>
+<p>Algunos comandos para obtener información de un matriz son (se omite el resultado):</p>
+<pre class="r"><code>dim(X)        # dimension de X (nro. de filas, nro. de columnas)
+typeof(X)     # tipo de datos en X
+rownames(X)   # nombres de fila de X
+colnames(X)   # nombres de columna de X
+is.matrix(X)  # X es una matriz?
+class(X)      # Clase de X</code></pre>
+</div>
+<div id="operaciones-aritmeticas-con-matrices" class="section level4">
+<h4><span class="header-section-number">2.2.3.3</span> Operaciones aritméticas con matrices</h4>
+<p>Al igual que con los vectores, cualquier operación aritmética se realiza elemento por elemento. Aquí un ejemplo (se omite el resultado):</p>
+<pre class="r"><code>Y &lt;-  X + 0.5  # se suma 0.5 a cada elemento de X</code></pre>
+<p>Los comandos <code>colSums</code>, <code>colMeans</code>, <code>rowSums</code> y <code>rowMeans</code> calculan sumas y medias por columnas o por filas. Un ejemplo sería (no se imprime el resultado):</p>
+<pre class="r"><code>colSums(X)    # totales por columna de X
+colMeans(X)   # medias por columna de X
+rowSums(X)    # totales por fila de X
+rowMeans(X)   # medias por fila de X</code></pre>
+</div>
+<div id="matrices-y-analisis-de-datos-categoricos" class="section level4">
+<h4><span class="header-section-number">2.2.3.4</span> Matrices y análisis de datos categóricos</h4>
+<p>Las matrices y arreglos en general permiten representar tablas de contingencia en el análisis de datos categóricos.</p>
+<p>En el ejemplo ejecutado <a href="#act">arriba</a> sobre la asociación entre el cáncer de pulmón y el trabajo en astilleros de barcos se generó una tabla <span class="math inline">\(2 \times 2\)</span>. A continuación se digitan los conteos para no fumadores:</p>
+<pre class="r"><code>X &lt;- matrix(data = c(11,50, 35, 203), ncol = 2)
+rownames(X) &lt;- c(&#39;si&#39;, &#39;no&#39;)
+colnames(X) &lt;- c(&#39;caso&#39;, &#39;control&#39;)
+X</code></pre>
+<pre><code>   caso control
+si   11      35
+no   50     203</code></pre>
+<p>Se pueden realizar cálculos sobre la matriz, como por ejemplo agregar totales marginales u obtener proporciones seleccionado el denominador preferido.</p>
+<pre class="r"><code>addmargins(X, margin = 1)  # adiciona una fila de total por columnas</code></pre>
+<pre><code>    caso control
+si    11      35
+no    50     203
+Sum   61     238</code></pre>
+<pre class="r"><code>addmargins(X, margin = 2)  # adiciona una columna de total por filas</code></pre>
+<pre><code>   caso control Sum
+si   11      35  46
+no   50     203 253</code></pre>
+<pre class="r"><code>addmargins(X)              # adiciona una fila y columna de totales</code></pre>
+<pre><code>    caso control Sum
+si    11      35  46
+no    50     203 253
+Sum   61     238 299</code></pre>
+<pre class="r"><code>prop.table(X, margin = 1)  # proporciones dividiendo por total de filas</code></pre>
+<pre><code>        caso   control
+si 0.2391304 0.7608696
+no 0.1976285 0.8023715</code></pre>
+<pre class="r"><code>prop.table(X, margin = 2)  # proporciones dividiendo por total de columnas</code></pre>
+<pre><code>        caso   control
+si 0.1803279 0.1470588
+no 0.8196721 0.8529412</code></pre>
+<pre class="r"><code>prop.table(X)              # proporciones dividiendo por gran total</code></pre>
+<pre><code>        caso   control
+si 0.0367893 0.1170569
+no 0.1672241 0.6789298</code></pre>
+</div>
+</div>
+<div id="marcos-de-datos-data.frame" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Marcos de datos (data.frame)</h3>
+<p>Un <code>data.frame</code> (al igual que una matriz) almacena datos en filas y columnas. Sin embargo, en un <code>data.frame</code>, cada columna representa un vector de un tipo particular. Así un <code>data.frame</code> puede almacenar datos de diversos tipos. Un <code>data.frame</code> se puede entender, entonces, como la concatenación de vectores, cada uno con un tipo específico de datos.</p>
+<p>Un <code>data.frame</code> es la tabla típica de base de datos donde las columnas son “variables” y las filas son los “sujetos”. Supongase que para cuatro sujetos se registraron dos variables, la edad y el tipo sanguíneo:</p>
+<pre class="r"><code># Ejemplo de creacion de un data.frame:
+datos &lt;- data.frame(
+  edad      = c(34,   56,  29, 40),
+  tipo.sang = c(&#39;A&#39;, &#39;A&#39;, &#39;B&#39;, &#39;A&#39;)
+)
+datos</code></pre>
+<pre><code>  edad tipo.sang
+1   34         A
+2   56         A
+3   29         B
+4   40         A</code></pre>
+<p>Note que cada vector entra a conformar una columna del <code>data.frame</code>. Cuando se leen datos usando comandos como <code>read.table</code> o <code>read_excel</code> se crean <code>data.frame</code>’s. Con las variables de texto, el comportamiento por defecto del data.frame es convertirlas a un <code>factor</code>.</p>
+<pre class="r"><code>str(datos)   # estructura del objeto</code></pre>
+<pre><code>&#39;data.frame&#39;:   4 obs. of  2 variables:
+ $ edad     : num  34 56 29 40
+ $ tipo.sang: Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 1 2 1</code></pre>
+<div id="data.frame-vs.-tbl_df-tibble" class="section level4">
+<h4><span class="header-section-number">2.2.4.1</span> <code>data.frame</code> vs. <code>tbl_df</code> (<code>tibble</code>)</h4>
+<p>Cuando importamos tablas desde excel usando el comando <code>read_excel</code> (librería <code>readxl</code>) se crea un <code>tbl_df</code> o <code>tibble</code> (en lugar de un <code>data.frame</code> exclusivo). El <code>tbl_df</code> es una clase modificada de <code>data.frame</code> que se comporta diferente en algunos aspectos. Un <code>tbl_df</code> se crea con el comando <code>tibble</code>. Primero se debe cargar la librería <code>tibble</code>:</p>
+<pre class="r"><code>library(tibble)  # se activa tibble. Debe instalarse primero</code></pre>
+<p>A continuación un ejemplo comparativo entre la impresión de un <code>data.frame</code> y de un <code>tbl_df</code> (<code>tibble</code>)</p>
+<div class="col-izq">
+<pre class="r"><code># data.frame
+datos1 &lt;- data.frame(
+  x = c(-3.5693, 10000, 45.67),
+  y = c(&#39;si&#39;, &#39;no&#39;, &#39;no&#39;)
+)
+datos1 # se imprime</code></pre>
+<pre><code>           x  y
+1    -3.5693 si
+2 10000.0000 no
+3    45.6700 no</code></pre>
+<pre class="r"><code>str(datos1)</code></pre>
+<pre><code>&#39;data.frame&#39;:   3 obs. of  2 variables:
+ $ x: num  -3.57 10000 45.67
+ $ y: Factor w/ 2 levels &quot;no&quot;,&quot;si&quot;: 2 1 1</code></pre>
+</div>
+<div class="col-der">
+<pre class="r"><code># tibble
+datos2 &lt;- tibble(
+  x = c(-3.5693, 10000, 45.67),
+  y = c(&#39;si&#39;, &#39;no&#39;, &#39;no&#39;)
+)
+datos2 # se imprime</code></pre>
+<pre><code># A tibble: 3 x 2
+         x y    
+     &lt;dbl&gt; &lt;chr&gt;
+1    -3.57 si   
+2 10000    no   
+3    45.7  no   </code></pre>
+<pre class="r"><code>str(datos2)</code></pre>
+<pre><code>Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:   3 obs. of  2 variables:
+ $ x: num  -3.57 10000 45.67
+ $ y: chr  &quot;si&quot; &quot;no&quot; &quot;no&quot;</code></pre>
+</div>
+<p><br>
+<br></p>
+<p>Note que ambos, el <code>data.frame</code> y el <code>tibble</code> se crean de la misma forma, pero difieren en como se imprimen en la consola. También difieren en que el <code>tibble</code> maneja las variables categóricas como <code>character</code> mientras que el <code>data.frame</code> las maneja como <code>factor</code>. Note además que un <code>tibble</code>, de todos modos, incluye la clase <code>data.frame</code>.</p>
+<p>Un <code>tibble</code> se puede convertir en un <code>data.frame</code> usando el comando <code>as.data.frame</code>. Aquí un ejemplo:</p>
+<pre class="r"><code>datos2.df &lt;- as.data.frame(datos2)  # conversion de tibble a data.frame
+str(datos2.df)</code></pre>
+<pre><code>&#39;data.frame&#39;:   3 obs. of  2 variables:
+ $ x: num  -3.57 10000 45.67
+ $ y: chr  &quot;si&quot; &quot;no&quot; &quot;no&quot;</code></pre>
+</div>
+<div id="obteniendo-informacion-de-un-data.frame" class="section level4">
+<h4><span class="header-section-number">2.2.4.2</span> Obteniendo información de un <code>data.frame</code></h4>
+<p>Algunos comandos para obtener información de un <code>data.frame</code> (o un <code>tibble</code>) son (se omite el resultado):</p>
+<pre class="r"><code>str(datos1)      # estructura del objeto
+dim(datos1)      # nro. de filas y columnas
+summary(datos1)  # resumen de cada columna
+names(datos1)     # imprime los nombres de columna</code></pre>
+</div>
+</div>
+<div id="listas" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Listas</h3>
+<p>Una lista puede almacenar cualquier tipo de objeto, incluso otras listas. Una lista se crea con el comando <code>list</code>. Aquí un ejemplo:</p>
+<pre class="r"><code># Se crea una lista con objetos creados atras
+milista &lt;- list(obj1 = x, obj2 = X, obj3 = datos1)
+milista</code></pre>
+<pre><code>$obj1
+[1] 34.0 24.5 49.8 34.5 56.7 23.4
+
+$obj2
+   caso control
+si   11      35
+no   50     203
+
+$obj3
+           x  y
+1    -3.5693 si
+2 10000.0000 no
+3    45.6700 no</code></pre>
+<div id="obteniendo-informacion-de-una-lista" class="section level4">
+<h4><span class="header-section-number">2.2.5.1</span> Obteniendo información de una lista</h4>
+<p>Algunos comandos que permiten obtener información de una lista son (se omite la impresión)</p>
+<pre class="r"><code>names(milista)  # nombres de cada objeto contenido en la lista
+str(milista)    # estructura de la lista</code></pre>
+</div>
+<div id="comandos-que-generan-listas" class="section level4">
+<h4><span class="header-section-number">2.2.5.2</span> Comandos que generan listas</h4>
+<p>Muchos comandos que realizan pruebas de hipótesis (p.e., <code>t.test</code>, <code>wilcox.test</code>, <code>prop.test</code>, <code>chisq.test</code>, <code>fisher.test</code>, <code>binom.test</code>, <code>lm</code>, <code>glm</code>, etc.) entregan sus resultados como <strong>una lista</strong>. Suponga una prueba de hipótesis donde se busca comparar dos probabilidades usando su diferencia. El comando <code>prop.test</code> realiza la prueba:</p>
+<pre class="r"><code># Se aplica el comando prop.test para comparar dos probabilidades:
+res &lt;- prop.test(x = c(40, 50), n = c(200, 200), correct = F)
+res</code></pre>
+<pre><code>
+    2-sample test for equality of proportions without continuity
+    correction
+
+data:  c(40, 50) out of c(200, 200)
+X-squared = 1.4337, df = 1, p-value = 0.2312
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.13169783  0.03169783
+sample estimates:
+prop 1 prop 2 
+  0.20   0.25 </code></pre>
+<p>El objeto <code>res</code> es una <strong>lista</strong> de clase <code>htest</code>. Para imprimir (y conocer) los nombres de la lista usamos <code>names</code>:</p>
+<pre class="r"><code>names(res)</code></pre>
+<pre><code>[1] &quot;statistic&quot;   &quot;parameter&quot;   &quot;p.value&quot;     &quot;estimate&quot;    &quot;null.value&quot; 
+[6] &quot;conf.int&quot;    &quot;alternative&quot; &quot;method&quot;      &quot;data.name&quot;  </code></pre>
+<p>Note que la lista almacena varios objetos. Por ejemplo, si se quiere acceder al objeto llamado <code>conf.int</code> usamos la siguiente sintaxis:</p>
+<pre class="r"><code>res$conf.int  # IC95% para la diferencia en las prob. poblacionales</code></pre>
+<pre><code>[1] -0.13169783  0.03169783
+attr(,&quot;conf.level&quot;)
+[1] 0.95</code></pre>
+</div>
+</div>
+<div id="ej:objetos" class="section level3">
+<h3><span class="header-section-number">2.2.6</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li><p>Para una muestra de 10 partos, se midió el peso del bebe al nacimiento en kilogramos. Los pesos fueron: {2.45, 2.62, 1.93, 2.81, 2.91, 2.1, 3.03, 3.97, 2.13, 3.73} Introduzca estos datos en un vector y obtenga la media, la desviación estándar y el coeficiente de variación del peso al nacimiento.</p></li>
+<li><p>A las mismas 10 madres del ejercicio anterior se les registró la raza. En el mismo orden, los resultados fueron: {3, 3, 2, 3, 1, 1, 1, 3, 2, 1} donde 1 = blanca; 2 = afroamericana; y 3 = otra. Introduzca estos datos en un vector y conviertalo en un <code>factor</code>. Use el argumento <code>labels</code> del comando <code>factor</code> para cambiar las etiquetas 1, 2 y 3 por el texto correspondiente. Obtenga una tabla de frecuencias del factor generado.</p></li>
+<li><p>Para los mismos datos de los ejercicios (1) y (2), de las 10 madres registradas, 2 fueron de la raza 1 y no fumaron durante el embarazo; 2 fueron de la raza 1 y si fumaron durante el embarazo; una de la raza 2 no fumó y otra de la raza 2 si fumó durante el embarazo. Finalmente, 4 madres de la raza 3 no fumaron durante el embarazo y 0 madres de la raza 3 si fumaron. Entre estos conteos en una matriz. Etiquete las filas y columnas adecuadamente. Obtenga totales por fila y columna. Guarde la matriz generada.</p></li>
+<li><p>Entre los datos de los ejercicios (1) y (2) en un <code>data.frame</code>. Guardelo en un objeto e imprima el <code>data.frame</code> en la consola.</p></li>
+<li><p>Guarde en una lista la matriz generada en el ejercicio (3) y el data.frame generado en el ejercicio (4).</p></li>
+<li><p>Guarde todos los objetos generados en los ejercicios (1) a (5) en un archivo <code>.RData</code>. Envíelo al correo <a href="mailto:pguzman@ces.edu.co" class="email">pguzman@ces.edu.co</a>.</p></li>
+</ol>
+</div>
+</div>
+<div id="expresiones-logicas" class="section level2">
+<h2><span class="header-section-number">2.3</span> Expresiones lógicas</h2>
+<p>Un expresión lógica plantea una pregunta cuya respuesta es falso (<code>FALSE</code>) o verdadero (<code>TRUE</code>). En lo que sigue suponga que <code>x</code> es un vector o matriz <code>numeric</code>. Los tipos de expresiones lógicas se listan a continuación:</p>
+<pre class="r"><code># Expresiones logicas:
+x &gt; 5             # x es mayor que 5 ?
+x &gt;= 5            # x es mayor o igual que 5 ?
+x &lt; 5             # x es menor que 5?
+x &lt;= 5            # x es menor o igual que 5?
+x &gt; 5 &amp; x &lt; 10    # x es mayor que 5 y menor que 10 (5 &lt; x &lt; 10) ?
+x &lt; 5 | x &gt; 10    # x es menor que 5 o mayor que 10?
+x == 5            # x es igual a 5?
+x != 5            # x es diferente de 5?
+is.na(x)          # x es un dato perdido?</code></pre>
+<p>Cuando el vector es <code>character</code> o tenemos un <code>factor</code>, expresiones lógicas típicas son:</p>
+<pre class="r"><code>x == &#39;a&#39;             # x es igual que &#39;a&#39;?
+x != &#39;a&#39;             # x es diferente de &#39;a&#39;?
+x == &#39;a&#39; | x == &#39;b&#39;  # x es igual que &#39;a&#39;  o  igual que &#39;b&#39;?
+is.na(x)             # x es un dato perdido?
+
+# cuales elementos de x coinciden con ser &#39;a&#39; o &#39;b&#39; o &#39;c&#39;?
+# esto es como un &#39;o&#39; para mas de dos categorias.
+x %in% c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)   </code></pre>
+<p>Las expresiones lógicas sirven para <strong>filtrar</strong> objetos o para <strong>contar</strong> eventos de interés en un muestra para una variable o una combinación de variables. A continuación se indica un ejemplo sobre un vector de 100 mediciones numéricas (se omite el resultado):</p>
+<pre class="r"><code># Se simula una muestra aleatoria de 100 mediciones de una
+# poblacion normal con media 50 y desv. estandar 10
+x &lt;- rnorm(n = 100, mean = 50, sd = 15)
+
+# Se cuentan cuantos sujetos tienen mediciones mayores a 70
+table(x &gt; 70)   # conteo de TRUE y FALSE
+sum(x &gt; 70)     # conteo de solo TRUE
+mean(x &gt; 70)    # proporcion de TRUE</code></pre>
+<p>Los comandos <code>sum</code> y <code>mean</code> funcionan sobre un vector lógico debido a que el <code>TRUE</code> se convierte en 1 y el <code>FALSE</code> en 0. Ahora un ejemplo con una variable categórica en una muestra de 100 registros (se omite el resultado)</p>
+<pre class="r"><code># Se simula una muestra aleatoria de 100 registros de una
+# variable categorica con cuatro categorias 
+x &lt;- sample(x = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;), size = 100,
+            prob = c(0.2, 0.4, 0.1, 0.3), replace = T)
+
+# Se cuentan el nro. de sujetos con valores iguales que &#39;a&#39;
+table(x == &#39;a&#39;)   # conteo de TRUE y FALSE
+sum(x == &#39;a&#39;)     # conteo de solo TRUE
+mean(x == &#39;a&#39;)    # proporcion de TRUE</code></pre>
+<div id="ejercicios-1" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Ejercicios</h3>
+<ol style="list-style-type: decimal">
+<li>Considere el vector de pesos al nacimiento dado en el ejercicio (1) de la sección <a href="#ej:objetos">anterior</a>. Usando <code>sum</code> cuente el número de partos con pesos menores 3 kg.</li>
+<li>Considere el vector de raza de la madres dado en el ejercicio (2) de la sección <a href="#ej:objetos">anterior</a>. Usando <code>sum</code> cuente el número de madres de raza 2.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="analisis-estadistico-en-r" class="section level1">
+<h1><span class="header-section-number">3</span> Análisis estadístico en R</h1>
+<p>En esta sección revisaremos procedimientos convencionales de análisis estadístico tanto descriptivos o exploratorios como inferenciales. En particular estudiaremos lo siguiente:</p>
+<ul>
+<li>exploración gráfica y numérica de datos por grupo (<em>Comandos</em>: <code>hist</code>, <code>boxplot</code>, <code>ggplot</code>, <code>geom_boxplot</code>, <code>geom_point</code>, <code>geom_histogram</code>, <code>group_by</code>, <code>summarise</code>, etc.).</li>
+<li>evaluación del supuesto de normalidad sobre variables continuas (<em>Comandos</em>: <code>hist</code>, <code>qqnorm</code>, <code>ggplot2</code>, <code>geom_qq</code>, <code>geom_histogram</code>, <code>shapiro.test</code>, <code>ks.test</code>).</li>
+<li>Prueba <span class="math inline">\(T\)</span> para comparar medias y pruebas equivalentes no paramétricas (<em>Comandos</em>: <code>t.test</code>, <code>wilcox.test</code>, <code>var.test</code>, <code>leveneTest</code>, <code>bartlett.test</code>).</li>
+<li>Modelos lineales y anova (<em>Comandos</em>: <code>lm</code>, <code>anova</code>, <code>Anova</code>, <code>emmeans</code>, <code>plot</code>, <code>summary</code>).</li>
+<li>Análisis de supervivencia y regresión de Cox (<em>Comandos</em>: <code>Surv</code>, <code>survfit</code>, <code>plot</code>, <code>ggsurvplot</code>, <code>coxph</code> <code>summary</code>, <code>cox.zph</code>).</li>
+<li>Prueba <span class="math inline">\(\chi^2\)</span> para tablas de contingencia, cálculo y comparació = n de riesgos (Comandos: <code>xtabs</code>, <code>mosaic</code> <code>chisq.test</code>, <code>prop.test</code>).</li>
+<li>Regresión logística (<em>Comandos</em>: <code>glm</code>, <code>predict</code>, <code>anova</code>)</li>
+</ul>
+<p>Para todo lo que sigue usaremos las siguientes librerías principales:</p>
+<pre class="r"><code>library(tidyverse)  # de una sola vez activa: tibble, dplyr, tidyr, ggplot2, etc.
+library(car)        # para comandos sobre modelos lineales.
+library(emmeans)    # obtencion de medias y contrastes desde modelos lineales
+library(survival)   # para analisis de supervivencia
+library(survminer)  # para usar ggplot en analisis de supervivencia
+library(vcd)        # Visualizacion de datos categoricos
+library(GGally)     # para comando ggcoef (grafico de coeficientes con ggplot2)
+library(Epi)        # comandos para estadistica en epidemiologia</code></pre>
+<p>Para la manipulación y cálculos sobre data.frames usaremos los comandos de la librería <a href="descargas/data-wrangling-spanish.pdf"><code>dplyr</code></a> <span class="citation">(Wickham &amp; Grolemund, <a href="#ref-wickham2017" role="doc-biblioref">2017</a>)</span> (<code>group_by</code>, <code>summarise</code>, <code>filter</code>, <code>gather</code>). Además, en algunos casos usaremos la expresión <code>%&gt;%</code> (que se habilita cuando activamos <code>dplyr</code>) para crear <strong>tubos</strong> de código, en lugar de anidar comandos (introducir un comando dentro de otro). Los tubos de código son más legibles que los comandos anidados.</p>
+<p>La expresión <code>%&gt;%</code> pasa el objeto a su izquierda como primer argumento del comando que esta a la derecha. Por ejemplo: <code>x %&gt;% mean()</code> pasa el objeto <code>x</code> como primer argumento de la función <code>mean()</code> que está a la derecha. A continuación dos ejemplos de expresiones equivalentes, una versión anidada y otra versión en un tubo:</p>
+<pre class="r"><code># Expresiones equivalentes:
+mean(x)         # anidado
+x %&gt;% mean()    # en tubo
+
+# Expresiones equivalentes:
+round(mean(x), 4)           # anidado
+x %&gt;% mean() %&gt;% round(4)   # en tubo</code></pre>
+<p>Para los gráficos usaremos principalmente la librería <a href="descargas/ggplot2-spanish.pdf"><code>ggplot2</code></a> <span class="citation">(Wickham, <a href="#ref-wickham2016" role="doc-biblioref">2016</a>)</span>. Esta librería permite realizar gráficos multivariados con pocas líneas de código y se ha vuelto muy popular entre los usuarios de <strong>R</strong>. El libro de <span class="citation">Chang (<a href="#ref-chang2012" role="doc-biblioref">2012</a>)</span> se recomienda para estudiar y usar esta librería.</p>
+<p>Las librerías <code>dplyr</code> y <code>ggplot2</code> (junto con otras como <code>tidyr</code>) son parte de un <em>ecosistema</em> de paquetes pensados para <strong>data science</strong> <span class="citation">(Wickham, <a href="#ref-wickham2016" role="doc-biblioref">2016</a>)</span> y que se hace llamar <code>tidyverse</code> <span class="citation">(Wickham, <a href="#ref-wickham2017b" role="doc-biblioref">2017</a>)</span>.</p>
+<div id="respuestas-continuas" class="section level2">
+<h2><span class="header-section-number">3.1</span> Respuestas continuas</h2>
+<div id="ejemplo-agudeza-visual" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Ejemplo: Agudeza visual</h3>
+<p>Los datos del archivo <a href="https://1drv.ms/u/s!AlLSvdV-FwtugqIKxUX-OwHIO0ZBJw"><code>visualacuity.zip</code></a>, tomados de la sección 8.1 de <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span>, presentan la agudeza visual (<code>acuity</code>) para dos razas (<code>race</code>) de 313 australianos. Se incluye también el género (<code>gender</code>) y la edad (<code>age.num</code>). <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span> usan estos datos para mostrar un ejemplo de un análisis de varianza factorial. La respuesta <code>acuity</code> sigue una distribución normal.</p>
+<p>Con este ejemplo mostraremos los siguientes aspectos:</p>
+<ul>
+<li>Lectura de datos desde un archivo <code>txt</code> (en lugar de un <code>excel</code>).</li>
+<li>Exploración gráfica de datos por grupos usando la comandos del paquete <code>ggplot2</code>.</li>
+<li>Transformación de un variable numérica en categórica usando los comandos <code>cut</code> y <code>mutate</code> (<code>dplyr</code>).</li>
+<li>Pruebas para comparar dos grupos con los comandos <code>t.test</code> y <code>wilcox.test</code>.</li>
+<li>Ejecución de un modelo lineal y análisis de varianza con los comandos <code>lm</code> y <code>anova</code>.</li>
+</ul>
+<div id="lectura-de-datos" class="section level4">
+<h4><span class="header-section-number">3.1.1.1</span> Lectura de datos</h4>
+<p>Se importan los datos y se revisa su estructura:</p>
+<pre class="r"><code># Lectura de datos: Agudeza visual por raza y genero ----
+acuity &lt;-  read.table(file = &#39;visualacuity.txt&#39;, header = T )
+str(acuity) # estructura</code></pre>
+<pre><code>&#39;data.frame&#39;:   313 obs. of  4 variables:
+ $ acuity : num  -0.3172 0.0017 -0.1542 -0.4722 -0.378 ...
+ $ race   : Factor w/ 2 levels &quot;Aboriginal&quot;,&quot;European&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+ $ gender : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+ $ age.num: num  32.8 23.1 37.6 26.7 36.9 20.8 35 30.9 35.7 33.6 ...</code></pre>
+<p>Note que el comando <code>read.table</code> produce un <code>data.frame</code> en el cual las variables categóricas quedaron como <code>factor</code>. Se puede suprimir este comportamiento usando el argumento <code>as.is = TRUE</code> dentro del comando <code>read.table</code>.</p>
+<p>Luego de la lectura de datos, es útil realizar una tabla de frecuencias de una o un par de variables categóricas:</p>
+<pre class="r"><code># Tabla de frecuencias de gender por race
+xtabs(~ gender + race, data = acuity) %&gt;%
+  addmargins()</code></pre>
+<pre><code>        race
+gender   Aboriginal European Sum
+  Female         54       63 117
+  Male          107       89 196
+  Sum           161      152 313</code></pre>
+</div>
+<div id="exploracion-grafica" class="section level4">
+<h4><span class="header-section-number">3.1.1.2</span> Exploración gráfica</h4>
+<p>En este ejemplo, la respuesta <code>acuity</code> se quiere evaluar en función de la raza (<code>race</code>), el género (<code>gender</code>) y la edad (<code>age.num</code>). A continuación un gráfico exploratorio de dispersión usando los comandos de la librería <code>ggplot2</code> para revisar la distribución de todas las variables y su relación con la respuesta <code>acuity</code>:</p>
+<pre class="r"><code># Usando la libreria ggplot2 para graficar un
+# diagrama de dispersion de acuity por age.num, race y gender.
+ggplot(acuity, aes(x = age.num, y = acuity, col = race)) + 
+  geom_point() + facet_grid(~ gender) + 
+  geom_smooth(method = &#39;lm&#39;) + labs(x = &#39;age (years)&#39;)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.disp-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Note que <code>age.num</code> no parece tener una relación con <code>acuity</code>, mientras que la <code>race</code> de europeos tiende a tener valores mayores de <code>acuity</code>. Enseguida otro par de gráficos con el mismo próposito de explorar los datos, ahora sin <code>age.num</code>.</p>
+<pre class="r"><code># Diagrama de puntos con un poco de ruido aleatorio 
+# para evitar el &#39;overplotting&#39;
+ggplot(acuity, aes(x = race, y = acuity)) +
+  geom_jitter(width = 0.1) + facet_grid(~ gender)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.box-1.png" width="384" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Boxplot
+ggplot(acuity, aes(x = race, y = acuity)) +
+  geom_boxplot() + facet_grid(~ gender)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.box-2.png" width="384" style="display: block; margin: auto;" /></p>
+</div>
+<div id="resumen-numerico-y-perfil-de-medias" class="section level4">
+<h4><span class="header-section-number">3.1.1.3</span> Resumen numérico y perfil de medias</h4>
+<p>Los boxplot de arriba sugieren que la distribución de <code>acuity</code> es más o menos simétrica. Así, se puede usar la media y la desviación estándar para resumir esta variable. No obstante, lo ideal es realizar el resumén por cada combinación de niveles de <code>gender</code> y <code>race</code>. A continuación se usa el comando <code>group_by</code> (paquete: <code>dplyr</code>) para agrupar el data.frame <code>acuity</code> por <code>gender</code> y <code>race</code> y luego se aplica el comando <code>summarise</code> (paquete: <code>dplyr</code>) para aplicar algunas funciones de resumen.</p>
+<pre class="r"><code># Resumen descriptivo usando comandos del paquete dplyr 
+descrip.acuity &lt;- acuity %&gt;%
+  group_by(race, gender) %&gt;%     # se agrupa por race y gender
+  summarise(n = n(), m = mean(acuity),       
+            s = sd(acuity),
+            eem = s/sqrt(n))
+
+descrip.acuity  # se imprime el resultado</code></pre>
+<pre><code># A tibble: 4 x 6
+# Groups:   race [2]
+  race       gender     n      m     s    eem
+  &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 Aboriginal Female    54 -0.267 0.166 0.0226
+2 Aboriginal Male     107 -0.260 0.124 0.0120
+3 European   Female    63 -0.112 0.190 0.0240
+4 European   Male      89 -0.185 0.187 0.0198</code></pre>
+<p>Note que el objeto <code>descrip.acuity</code> contiene el resumen realizado. Este objeto contiene los resultados mostrados en la Tabla 8.1 de <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span>, además, esta tabla permite realizar un <em>perfil de medias</em> (igual a la figura 8.1 de <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span>) para explorar con mayor detalle la posibilidad de <strong>interacción</strong> entre <code>gender</code> y <code>race</code>. Este gráfico se puede realizar también con <code>ggplot2</code>:</p>
+<pre class="r"><code># Grafico de perfil de medias con barras de error:
+ggplot(descrip.acuity, aes(x = gender, y = m, ymin = m-eem, ymax = m+eem,
+                           col = race, shape = race)) +
+  geom_pointrange(size = 1) + geom_line(aes(group = race)) + ylab(&#39;mean acuity&#39;)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.perfil-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>El gráfico sugiere que el efecto de <code>gender</code> sobre <code>acuity</code> es más fuerte en <code>race = European</code> que en <code>race = Aboriginal</code> y esta modificación del efecto es indicativo de <strong>interacción</strong> entre <code>race</code> y <code>gender</code>. Esto se probará más adelante usando un análisis de varianza.</p>
+</div>
+<div id="convirtiendo-una-variable-numerica-en-categorica" class="section level4">
+<h4><span class="header-section-number">3.1.1.4</span> Convirtiendo una variable numérica en categórica</h4>
+<p>Los autores categorizan la edad en dos intervalos (20 a 29 y 30 a 39 años). Para hacer esto, usaremos el comado <a href="#com.factores"><code>cut</code></a> dentro del comando <code>mutate</code> (librería <code>dplyr</code>):</p>
+<pre class="r"><code>range(acuity$age.num)  # para ver el min y max de age.num</code></pre>
+<pre><code>[1] 20.1 39.7</code></pre>
+<pre class="r"><code>acuity2 &lt;- mutate(acuity, 
+    agef = cut(age.num, breaks = c(20,30,40), right = F)
+  )
+str(acuity2)              # observe el cambio</code></pre>
+<pre><code>&#39;data.frame&#39;:   313 obs. of  5 variables:
+ $ acuity : num  -0.3172 0.0017 -0.1542 -0.4722 -0.378 ...
+ $ race   : Factor w/ 2 levels &quot;Aboriginal&quot;,&quot;European&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+ $ gender : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 2 2 2 ...
+ $ age.num: num  32.8 23.1 37.6 26.7 36.9 20.8 35 30.9 35.7 33.6 ...
+ $ agef   : Factor w/ 2 levels &quot;[20,30)&quot;,&quot;[30,40)&quot;: 2 1 2 1 2 1 2 2 2 2 ...</code></pre>
+<pre class="r"><code>summary(acuity2$agef)</code></pre>
+<pre><code>[20,30) [30,40) 
+    160     153 </code></pre>
+<p>Usando el nuevo objeto <code>acuity2</code>, se puede realizar un boxplot incluyendo también la edad categórica:</p>
+<pre class="r"><code># Boxplot para la acuity con cuatro var categoricas
+ggplot(acuity2, aes(x = race, y = acuity, fill = agef)) +
+  geom_boxplot() + facet_grid(~ gender)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.age2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Igual que en el primer gráfico, se observa que la <code>agef</code> no parece introducir explicación adicional en la variación de <code>acuity</code>.</p>
+</div>
+<div id="evaluacion-de-normalidad" class="section level4">
+<h4><span class="header-section-number">3.1.1.5</span> Evaluación de normalidad</h4>
+<p>Los boxplot realizados atras sugieren que la distribución de <code>acuity</code> es relativamente simétrica en cada grupo y que posiblemente tenga una distribución normal. Sin embargo otros métodos pueden usarse para realizar una evaluación más rigurosa de la normalidad. Para este propósito, a continuación se realizan gráficos cuantil-cuantil, histogramas y la prueba Shapiro-Wilk.</p>
+<p>Los comandos que trae el <strong>R</strong> de base para realizar un histograma y un gráfico cuantil-cuantil son: <code>hist</code> (paquete: <code>graphics</code>) y <code>qqnorm</code> (paquete: <code>stats</code>) respectivamente. Para ilustración, enseguida se usan estos dos comandos sobre la variable <code>acuity</code> para los 313 sujetos del estudio.</p>
+<pre class="r"><code>par(mfrow = c(1,2), cex = 0.9)  # se abre la ventana grafica en dos espacios (1 fila y 2 columnas)
+hist(acuity2$acuity, col = &#39;lightblue&#39;, xlab = &#39;Visual Acuity&#39;)      
+qqnorm(scale(acuity2$acuity), col = &#39;blue&#39;, ylab = &#39;Visual Acuity&#39;, 
+       xlim = c(-4,4), ylim = c(-4,4))
+abline(a = 0, b = 1, lty = 2)  # se agrega una linea diagonal de referencia</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.hist-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>El comando <code>scale</code> estandariza ((<span class="math inline">\(x - \bar{x})/s\)</span>) los datos antes de realizar el gráfico. Los gráficos indican que <code>acuity</code> sigue una distribución normal. La librería <code>ggplot2</code>, por otro lado, tiene los comandos <code>geom_qq</code> y <code>geom_histogram</code> para el mismo próposito. No obstante, <code>ggplot2</code> tiene facilidades que permiten realizar los mismos gráficos por grupos. A continuación se realizan los mismos gráficos usando <code>ggplot2</code>:</p>
+<pre class="r"><code># Se hace histograma
+p1 &lt;- ggplot(acuity2, aes(x = acuity)) + 
+  geom_histogram(bins = 8, col = &#39;brown&#39;, fill = &#39;lightblue&#39;)
+
+# Se hace cuantil-cuantil
+p2 &lt;- ggplot(acuity, aes(sample = scale(acuity))) +
+  geom_qq(col = &#39;blue&#39;) +  xlim(-4,4) + ylim(-4,4) +
+  geom_abline(slope = 1, intercept = 0, lty = 2, 
+              lwd = 0.5, col = &#39;brown&#39;)
+
+# Se grafican juntos:
+library(gridExtra)
+grid.arrange(p1, p2, ncol = 2)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.hist.ggplot-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Ahora se realizan los mismos gráficos por grupos (combinaciones de <code>gender</code>, <code>race</code> y <code>agef</code>). Para el gráfico cuantil-cuantil, primero se realiza la estandarización (con <code>scale</code>) por grupo usando <code>group_by</code> y <code>mutate</code>.</p>
+<pre class="r"><code># Graficos cuantil - cuantil por grupo
+acuity2 %&gt;%
+  group_by(gender, race, agef) %&gt;%
+  mutate(acuity.z = scale(acuity)) %&gt;%   # se estandariza acuity por gender, race y agef
+  ggplot(aes(sample = acuity.z)) +
+  geom_qq(col = &#39;blue&#39;) +  xlim(-4,4) + ylim(-4,4) +
+  geom_abline(slope = 1, intercept = 0, lty = 2, 
+              lwd = 0.5, col = &#39;brown&#39;) +
+  facet_grid(gender ~ agef + race)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Histogramas por grupo
+ggplot(acuity2, aes(x = acuity)) + 
+  geom_histogram(bins = 8, col = &#39;brown&#39;, fill = &#39;lightblue&#39;) + 
+  facet_grid(gender ~ agef + race) </code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-44-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Los gráficos muestran evidencia razonable de normalidad para <code>acuity</code> en cada uno de los grupos de datos.</p>
+<p>Una prueba Shapiro-Wilk se realiza con el comando <code>shapiro.test</code>. Si se quisiera aplicar la prueba a toda la columna <code>acuity</code> (sin distinguir por grupo), el código es el siguiente:</p>
+<pre class="r"><code>res.shapiro &lt;- shapiro.test(acuity2$acuity)
+res.shapiro   # se imprime</code></pre>
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  acuity2$acuity
+W = 0.99586, p-value = 0.5824</code></pre>
+<p>Este resultado produce una <code>lista</code>. Para conocer su contenido podemos usar el comando <code>names</code>.</p>
+<pre class="r"><code>names(res.shapiro)</code></pre>
+<pre><code>[1] &quot;statistic&quot; &quot;p.value&quot;   &quot;method&quot;    &quot;data.name&quot;</code></pre>
+<p>Por ejemplo, si usted quiere obtener sólo el valor <span class="math inline">\(p\)</span> (<code>p.value</code>) se escribe el nombre de la lista, signo de moneda (<code>$</code>) y el nombre del elemento, asi:</p>
+<pre class="r"><code>res.shapiro$p.value</code></pre>
+<pre><code>[1] 0.5823867</code></pre>
+<p>Para aplicar el mismo comando a cada grupo podemos usar de nuevo la combinación de comandos <code>group_by</code> y <code>summarise</code>.</p>
+<pre class="r"><code># Prueba Shapiro-Wilk sobre acuity por grupo:
+acuity2 %&gt;%
+  group_by(gender, race, agef) %&gt;%
+  summarise(
+    n = n(),
+    valor_P = shapiro.test(acuity)$p.value
+  )</code></pre>
+<pre><code># A tibble: 8 x 5
+# Groups:   gender, race [4]
+  gender race       agef        n valor_P
+  &lt;fct&gt;  &lt;fct&gt;      &lt;fct&gt;   &lt;int&gt;   &lt;dbl&gt;
+1 Female Aboriginal [20,30)    24   0.964
+2 Female Aboriginal [30,40)    30   0.176
+3 Female European   [20,30)    36   0.711
+4 Female European   [30,40)    27   0.429
+5 Male   Aboriginal [20,30)    58   0.279
+6 Male   Aboriginal [30,40)    49   0.153
+7 Male   European   [20,30)    42   0.438
+8 Male   European   [30,40)    47   0.847</code></pre>
+<p>Usando un nivel de significancia <span class="math inline">\(\alpha = 0.05\)</span>, no se rechaza la hipótesis de normalidad en ninguno de los grupos.</p>
+</div>
+<div id="t.test" class="section level4">
+<h4><span class="header-section-number">3.1.1.6</span> Pruebas para comparar dos grupos</h4>
+<p>Sólo para ilustración, enseguida se realiza una prueba <span class="math inline">\(T\)</span> para comparar la media del <code>acuity</code> entre los dos niveles de <code>race</code> mediante el comando <code>t.test</code> en mujeres. Este comando recibe una <code>formula</code> (<code>y ~ x</code>) donde se indica cual es la respuesta (<code>y</code>) y cual es la variable explicativa (<code>x</code>), un argumento <code>data</code> donde debe indicarse el data.frame con los datos y, de forma opcional, el argumento <code>subset</code> donde se específica un filtro para las filas de la tabla usando una expresión lógica.</p>
+<pre class="r"><code># Prueba T para Female (suponiendo varianzas diferentes)
+t.test(acuity ~ race, data = acuity, subset = gender == &#39;Female&#39;, 
+       alternative = &#39;two.sided&#39;, paired = F, var.equal = F)</code></pre>
+<pre><code>
+    Welch Two Sample t-test
+
+data:  acuity by race
+t = -4.6948, df = 114.95, p-value = 7.433e-06
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.22000909 -0.08944593
+sample estimates:
+mean in group Aboriginal   mean in group European 
+              -0.2671370               -0.1124095 </code></pre>
+<p>El comando <code>wilcox.test</code> realiza la prueba no parámetrica <span class="math inline">\(U\)</span> de Mann-Whitney (o prueba de sumas de rangos de Wilcoxon) equivalente. Los argumentos de este comando son similares a los de <code>t.test</code>.</p>
+<pre class="r"><code># Prueba no parametrica de Wilcoxon (o Mann-Whitney) para Female:
+wilcox.test(acuity ~ race, data = acuity, subset = gender == &#39;Female&#39;, 
+       alternative = &#39;two.sided&#39;, paired = F, correct = F)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test
+
+data:  acuity by race
+W = 930.5, p-value = 2.524e-05
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>En ambos casos, el valor <span class="math inline">\(p\)</span> (<code>p-value</code>) indica evidencia fuerte en contra de la hipótesis nula de igualdad. Realice usted la prueba <span class="math inline">\(T\)</span> y de Wilcoxon para los hombres. Use <code>?wilcox.test</code> y <code>?t.test</code> para ver la ayuda y revisar el detalle de los argumentos de cada comanado.</p>
+<p>Adicionalmente, si quiere comparar dos (o más) varianzas, se encuentran los comandos <code>var.test</code> (librería: <code>stats</code>), <code>bartlett.test</code> (librería: <code>stats</code>) y <code>leveneTest</code> (librería: <code>car</code>). Sus argumentos son similares a los de <code>t.test</code>.</p>
+</div>
+<div id="modelo-lineal-y-analisis-de-varianza" class="section level4">
+<h4><span class="header-section-number">3.1.1.7</span> Modelo lineal y análisis de varianza</h4>
+<p>Para ejecutar un modelo lineal donde <code>acuity</code> se evalue en función de <code>race</code> y <code>gender</code> (o incluso <code>age.num</code> o <code>agef</code>) se usa el comando <code>lm</code>. Este comando sirve para modelos con una o más variables explicativas de diferente tipo. Otros comandos como <code>summary</code>, <code>anova</code>, <code>predict</code>, <code>residuals</code>, <code>confint</code>, <code>plot</code>, etc. están disponibles para extrear diferentes cálculos y pruebas del objeto generado por <code>lm</code>. Todos estos comandos son del paquete <code>stats</code>. Adicionalmente, el paquetes <code>emmeans</code> <span class="citation">(Lenth, <a href="#ref-lenth2019" role="doc-biblioref">2019</a>)</span> tiene comandos para realizar cálculo de medias y contrastes personalizados sobre el objeto producido por <code>lm</code>. El paquete <code>car</code> <span class="citation">(Fox &amp; Weisberg, <a href="#ref-fox2011" role="doc-biblioref">2011</a>)</span> también es un buen acompañante para realizar cálculos sobre el objeto <code>lm</code>.</p>
+<div id="ejecutando-el-modelo-con-lm-y-explorando-el-objeto" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.1</span> Ejecutando el modelo con <code>lm</code> y explorando el objeto</h5>
+<p>Con el comando <code>lm</code> podemos ajustar el siguiente modelo:</p>
+<p><span class="math display">\[ \mathtt{acuity}_i = \beta_0 + \beta_1\mathtt{gender}^{m}_i + \beta_2\mathtt{race}^{e}_i + \beta_3(\mathtt{gender}^{f} \times \mathtt{race}^{e})_i + \varepsilon_i  \]</span></p>
+<p>donde <span class="math inline">\(\mathtt{gender}^{m}\)</span> es <span class="math inline">\(1\)</span> si <code>gender</code> es <code>male</code> y <span class="math inline">\(0\)</span> en otro caso, y <span class="math inline">\(\mathtt{race}^{e}\)</span> es <span class="math inline">\(1\)</span> si <code>race</code> es <code>European</code> y <span class="math inline">\(0\)</span> en otro caso. Note que el nivel de referencia queda para el primer nivel de cada factor incluido en el modelo. El término <span class="math inline">\(\mathtt{gender}^{f} \times \mathtt{race}^{e}\)</span> indica la interacción entre <code>gender</code> y <code>race</code>. En <code>lm</code>, los errores o residuales (<span class="math inline">\(\varepsilon_i\)</span>) se suponen normales con media <span class="math inline">\(0\)</span> y varianza <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>Similar a comandos como <code>t.test</code>, <code>wilcox.test</code> o <code>var.test</code> (ver <a href="#t.test">atras</a>), el comando <code>lm</code> recibe los argumentos: <code>formula</code>, <code>data</code> y <code>subset</code> (opcional).</p>
+<pre class="r"><code># Se ejecuta un modelo lineal usando lm:
+m &lt;- lm(acuity ~  gender + race + gender:race, data = acuity2)   # forma larga
+m &lt;- lm(acuity ~  gender*race, data = acuity2)                   # forma corta
+class(m)  # examine la clase del objeto</code></pre>
+<pre><code>[1] &quot;lm&quot;</code></pre>
+<pre class="r"><code>m         # imprima el objeto</code></pre>
+<pre><code>
+Call:
+lm(formula = acuity ~ gender * race, data = acuity2)
+
+Coefficients:
+            (Intercept)               genderMale             raceEuropean  
+              -0.267137                 0.007179                 0.154728  
+genderMale:raceEuropean  
+              -0.079337  </code></pre>
+<p>La impresión nos ofrece la estimación de los coeficientes del modelo (<span class="math inline">\(\hat{\beta}_0 = -0.267, \hat{\beta}_1 = 0.007, \hat{\beta}_2 = 0.155, \hat{\beta}_3 = -0.079\)</span>).</p>
+<p>El objeto <code>m</code> es una <strong>lista</strong> de clase <code>lm</code>. Para ver el contenido de esta lista usamos <code>names</code>:</p>
+<pre class="r"><code>names(m)</code></pre>
+<pre><code> [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;         
+ [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;  
+ [9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;        
+[13] &quot;model&quot;        </code></pre>
+<p>Para extraer cualquier de estos objetos usamos el nombre de la lista, el signo de moneda (<code>$</code>) y el nombre del objeto. Por ejemplo, si usted quiere extraer los coeficientes:</p>
+<pre class="r"><code>m$coefficients   # tambien sirve m$coef o coef(m)</code></pre>
+<pre><code>            (Intercept)              genderMale            raceEuropean 
+           -0.267137037             0.007179093             0.154727513 
+genderMale:raceEuropean 
+           -0.079336985 </code></pre>
+</div>
+<div id="evaluando-supuestos-y-diagnosticos" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.2</span> Evaluando supuestos y diagnósticos</h5>
+<p>El comando <code>plot</code> sobre el objeto de clase <code>lm</code> imprime seis gráficos de diagnóstico. De estos seis se muestran tres a continuación:</p>
+<pre class="r"><code>par(mfrow = c(1,3), cex = 0.9)  # se divide la ventana en 3 (1 fila y 3 col)
+plot(m, which = 1)   # residuales vs. ajustados
+plot(m, which = 2)   # qqnorm de resiudales estandarizados
+plot(m, which = 4)   # distancia de cook (valores influenciales)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/acuity.lm.plot-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="analisis-de-varianza" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.3</span> Análisis de varianza</h5>
+<p>El comando <code>anova</code> imprime un análisis de varianza con pruebas (o sumas de cuadrado) secuenciales (tipo I en la jerga del programa SAS):</p>
+<pre class="r"><code># Anova tipo 1 o secuencial
+anova(m)</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: acuity
+             Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+gender        1 0.1286 0.12864  4.7259   0.03047 *  
+race          1 0.8578 0.85777 31.5127 4.412e-08 ***
+gender:race   1 0.1145 0.11450  4.2064   0.04111 *  
+Residuals   309 8.4110 0.02722                      
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Si se quiere obtener las anovas tipo 2 y 3 use el comando <code>Anova</code> (paquete: <code>car</code>)</p>
+<pre class="r"><code>library(car)
+Anova(m, type = 2)   # Anova tipo 2</code></pre>
+<pre><code>Anova Table (Type II tests)
+
+Response: acuity
+            Sum Sq  Df F value    Pr(&gt;F)    
+gender      0.0794   1  2.9177   0.08862 .  
+race        0.8578   1 31.5127 4.412e-08 ***
+gender:race 0.1145   1  4.2064   0.04111 *  
+Residuals   8.4110 309                      
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>Anova(m, type = 3)   # Anova tipo 3</code></pre>
+<pre><code>Anova Table (Type III tests)
+
+Response: acuity
+            Sum Sq  Df  F value    Pr(&gt;F)    
+(Intercept) 3.8536   1 141.5709 &lt; 2.2e-16 ***
+gender      0.0018   1   0.0680   0.79452    
+race        0.6961   1  25.5738 7.312e-07 ***
+gender:race 0.1145   1   4.2064   0.04111 *  
+Residuals   8.4110 309                       
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="coeficientes-y-prueba-sobre-los-coeficientes" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.4</span> Coeficientes y prueba sobre los coeficientes</h5>
+<p>Para imprimir una tabla con coeficientes, errores estándar y pruebas sobre los coeficientes del modelo use el comando <code>summary</code></p>
+<pre class="r"><code># resumen de los ppales aspectos del modelo
+summary(m)   </code></pre>
+<pre><code>
+Call:
+lm(formula = acuity ~ gender * race, data = acuity2)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.61233 -0.11024  0.00136  0.12014  0.55997 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)             -0.267137   0.022452 -11.898  &lt; 2e-16 ***
+genderMale               0.007179   0.027540   0.261   0.7945    
+raceEuropean             0.154728   0.030596   5.057 7.31e-07 ***
+genderMale:raceEuropean -0.079337   0.038683  -2.051   0.0411 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.165 on 309 degrees of freedom
+Multiple R-squared:  0.1157,    Adjusted R-squared:  0.1072 
+F-statistic: 13.48 on 3 and 309 DF,  p-value: 2.733e-08</code></pre>
+<p>La parte final de la salida del <code>summary</code> muestra estadísticos útiles como el coeficiente de determinación (<span class="math inline">\(R^2\)</span>) y el coef. de determinación ajustado.</p>
+<p>El comando <code>confint</code> imprime adicionalmente intervalos de confianza para los coeficientes del modelo:</p>
+<pre class="r"><code># Se imprimen IC95% para los coeficientes
+confint(m)</code></pre>
+<pre><code>                              2.5 %       97.5 %
+(Intercept)             -0.31131437 -0.222959700
+genderMale              -0.04701109  0.061369271
+raceEuropean             0.09452395  0.214931075
+genderMale:raceEuropean -0.15545234 -0.003221635</code></pre>
+<p>Usted podría juntar en un mismo objeto la tabla de coeficientes generada por <code>summary</code> y la tabla de IC95% generada por <code>confint</code> usando el comando <code>cbind</code> (unir o pegar por columnas):</p>
+<pre class="r"><code># Se juntan tabla de coeficientes con sus IC95%
+cbind(
+  summary(m)$coef,
+  confint(m)
+) %&gt;% round(4)</code></pre>
+<pre><code>                        Estimate Std. Error  t value Pr(&gt;|t|)   2.5 %
+(Intercept)              -0.2671     0.0225 -11.8984   0.0000 -0.3113
+genderMale                0.0072     0.0275   0.2607   0.7945 -0.0470
+raceEuropean              0.1547     0.0306   5.0571   0.0000  0.0945
+genderMale:raceEuropean  -0.0793     0.0387  -2.0510   0.0411 -0.1555
+                         97.5 %
+(Intercept)             -0.2230
+genderMale               0.0614
+raceEuropean             0.2149
+genderMale:raceEuropean -0.0032</code></pre>
+<p>No obstante, el comando <code>ci.lin</code> de la librería <code>Epi</code> hace lo mismo por defecto:</p>
+<pre class="r"><code># Impresion de tabla de coef e IC95% juntos:
+library(Epi)
+ci.lin( m ) %&gt;% round(4)</code></pre>
+<pre><code>                        Estimate StdErr        z      P    2.5%   97.5%
+(Intercept)              -0.2671 0.0225 -11.8984 0.0000 -0.3111 -0.2231
+genderMale                0.0072 0.0275   0.2607 0.7943 -0.0468  0.0612
+raceEuropean              0.1547 0.0306   5.0571 0.0000  0.0948  0.2147
+genderMale:raceEuropean  -0.0793 0.0387  -2.0510 0.0403 -0.1552 -0.0035</code></pre>
+<p>Finalmente, se pueden gráficar los coeficientes junto con IC95% usando el comando <code>ggcoef</code> (librería: <code>GGally</code>):</p>
+<pre class="r"><code>library(GGally)
+ggcoef(m)   # se crea el grafico</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-50-1.png" width="524.16" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cambiando-niveles-de-referencia" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.5</span> Cambiando niveles de referencia</h5>
+<p>Si se quiere cambiar un nivel de referencia lo puede hacer con <code>factor</code> o con el comando <code>relevel</code>. Puede usar <code>mutate</code> para aplicar cualquiera de estos comandos a la columna respectiva del data.frame:</p>
+<pre class="r"><code># Se crea otro data.frame donde gender tiene como nivel 
+# de referencia a Male:
+acuity3 &lt;- mutate(acuity2,
+  gender = relevel(gender, ref = &#39;Male&#39;)
+  )
+
+# Se ejecuta el modelo de nuevo:
+m &lt;- lm(acuity ~ gender*race, data = acuity3)
+round(m$coef, 4)  # se imprimen los coeficientes</code></pre>
+<pre><code>              (Intercept)              genderFemale 
+                  -0.2600                   -0.0072 
+             raceEuropean genderFemale:raceEuropean 
+                   0.0754                    0.0793 </code></pre>
+</div>
+<div id="comparando-modelos" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.6</span> Comparando modelos</h5>
+<p>Suponga que usted quiere evaluar si la edad tiene un efecto sobre <code>acuity</code> (ejemplo 8.2 de <span class="citation">Le &amp; Eberly (<a href="#ref-le2016" role="doc-biblioref">2016</a>)</span>). Se puede ejecutar un nuevo modelo que incluya la edad y utilizar el comando <code>anova</code> para comparar los dos modelos. Esto devuelve una prueba <span class="math inline">\(F\)</span> que compara el modelo completo (que incluye la edad) con uno reducido (que no incluya la edad). La comparación se realiza en términos de la <strong>reducción</strong> en la suma de cuadrados del error que ocurre del modelo reducido al modelo completo.</p>
+<pre class="r"><code># Nuevo modelo con la edad:
+m.agef &lt;- lm(acuity ~ gender*agef*race, data = acuity3)
+
+# Comparacion de modelos:
+anova(m, m.agef)</code></pre>
+<pre><code>Analysis of Variance Table
+
+Model 1: acuity ~ gender * race
+Model 2: acuity ~ gender * agef * race
+  Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+1    309 8.4110                           
+2    305 8.2987  4   0.11225 1.0313 0.3912</code></pre>
+</div>
+<div id="estimando-medias-y-efectos-contrastes" class="section level5">
+<h5><span class="header-section-number">3.1.1.7.7</span> Estimando medias y efectos (contrastes)</h5>
+<p>Desde el objeto <code>lm</code> se pueden solicitar estimación de medias y efectos (diferencias de medias) con una variedad de opciones. Para esto es últil la librería <code>emmeans</code>. A continuación se solicitan las medias de <code>acuity</code> por <code>race</code> para cada <code>gender</code>, y además, se calculan contrastes (diferencias) entre las medias de <code>acuity</code> en cada <code>gender</code>.</p>
+<pre class="r"><code># Medias de raza por genero y diferencias entre 
+# razas dentro de genero
+emmeans(m, specs = ~ gender | race, contr = &#39;pairwise&#39;)</code></pre>
+<pre><code>$emmeans
+race = Aboriginal:
+ gender emmean     SE  df lower.CL upper.CL
+ Male   -0.260 0.0159 309   -0.291  -0.2286
+ Female -0.267 0.0225 309   -0.311  -0.2230
+
+race = European:
+ gender emmean     SE  df lower.CL upper.CL
+ Male   -0.185 0.0175 309   -0.219  -0.1502
+ Female -0.112 0.0208 309   -0.153  -0.0715
+
+Confidence level used: 0.95 
+
+$contrasts
+race = Aboriginal:
+ contrast      estimate     SE  df t.ratio p.value
+ Male - Female  0.00718 0.0275 309  0.261  0.7945 
+
+race = European:
+ contrast      estimate     SE  df t.ratio p.value
+ Male - Female -0.07216 0.0272 309 -2.656  0.0083 </code></pre>
+<p>La salida de <code>emmeans</code> se divide en dos partes. Al inicio muestra las medias (<code>$emmeans</code>) de <code>gender</code> en cada nivel de <code>race</code>. Al final muestra los contrastes (<code>$contrasts</code>) o diferentes entre los niveles de <code>gender</code> para cada <code>race</code>. En <code>Aboriginal</code> note que la diferencia resultó positiva y no significativa (valor <span class="math inline">\(p = 0.7945\)</span>), mientras que <code>European</code> resultó negativa y significativa (valor <span class="math inline">\(p = 0.0083\)</span>). Por esta razón, la <strong>interacción</strong> tuvo significancia en el modelo.</p>
+<p>El comando <code>ci.lin</code> (paquete: <code>Epi</code>) también permite solicitar contrastes entre niveles de un factor en un modelo <code>lm</code>.</p>
+</div>
+</div>
+</div>
+<div id="ejemplo-supervivencia-en-cancer-de-ovario" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Ejemplo: Supervivencia en cáncer de ovario</h3>
+<p>El objeto <code>ovarian</code> (paquete: <code>survival</code>) en <strong>R</strong> contiene los datos de un ensayo aleatorizado de cohorte donde se comparan dos tratamientos contra el cáncer de ovario. Usaremos estos datos para ilustrar algunos aspectos del análisis de supervivencia en <strong>R</strong> tales como estimación Kaplan-Meier, curvas de supervivencia y regresión de Cox. Un script inicial para estos datos se puede descargar <a href="https://1drv.ms/u/s!AlLSvdV-FwtugqIMox_cc4NLYEmwkw">aquí</a>.</p>
+<p>En este <a href="https://rstudio-pubs-static.s3.amazonaws.com/375297_34390ade0ddb4dd2bbe3bf1abf884dfe.html">enlace</a> podrá encontrar mayor detalle sobre análisis de supervivencia y regresión de Cox en <strong>R</strong>. También dos libros recomandos de análisis de supervivencia en <code>R</code> son el de <span class="citation">Tableman &amp; Kim (<a href="#ref-tableman2003" role="doc-biblioref">2003</a>)</span> y el de <span class="citation">Broström (<a href="#ref-brostrom2012" role="doc-biblioref">2012</a>)</span>.</p>
+<div id="lectura-de-datos-1" class="section level4">
+<h4><span class="header-section-number">3.1.2.1</span> Lectura de datos</h4>
+<p>Los datos ya se encuentran en <strong>R</strong>. Sólo debe activarse el paquete <code>survival</code> y luego los datos con el comando <code>data</code>:</p>
+<pre class="r"><code>library(survival)  # se activa survival
+data(&quot;ovarian&quot;)    # se activa el data.frame ovarian
+
+# Se revisa la estructura
+str(ovarian)</code></pre>
+<pre><code>&#39;data.frame&#39;:   26 obs. of  6 variables:
+ $ futime  : num  59 115 156 421 431 448 464 475 477 563 ...
+ $ fustat  : num  1 1 1 0 1 0 1 1 0 1 ...
+ $ age     : num  72.3 74.5 66.5 53.4 50.3 ...
+ $ resid.ds: num  2 2 2 2 2 1 2 2 2 1 ...
+ $ rx      : num  1 1 1 2 1 1 2 2 1 2 ...
+ $ ecog.ps : num  1 1 2 1 1 2 2 2 1 2 ...</code></pre>
+<pre class="r"><code># Resumen del data.frame
+summary(ovarian)</code></pre>
+<pre><code>     futime           fustat            age           resid.ds    
+ Min.   :  59.0   Min.   :0.0000   Min.   :38.89   Min.   :1.000  
+ 1st Qu.: 368.0   1st Qu.:0.0000   1st Qu.:50.17   1st Qu.:1.000  
+ Median : 476.0   Median :0.0000   Median :56.85   Median :2.000  
+ Mean   : 599.5   Mean   :0.4615   Mean   :56.17   Mean   :1.577  
+ 3rd Qu.: 794.8   3rd Qu.:1.0000   3rd Qu.:62.38   3rd Qu.:2.000  
+ Max.   :1227.0   Max.   :1.0000   Max.   :74.50   Max.   :2.000  
+       rx         ecog.ps     
+ Min.   :1.0   Min.   :1.000  
+ 1st Qu.:1.0   1st Qu.:1.000  
+ Median :1.5   Median :1.000  
+ Mean   :1.5   Mean   :1.462  
+ 3rd Qu.:2.0   3rd Qu.:2.000  
+ Max.   :2.0   Max.   :2.000  </code></pre>
+<p>La variable <code>funtime</code> indica el tiempo de falla (muerte) o censura, mientras que <code>funstat</code> indica si ocurrió censura (<code>0</code>) o no (<code>1</code>). Note que el <span class="math inline">\(100 - 46.2 = 53.8\)</span>% de la muestra tuvo censura. Las otras variables son la edad del sujeto (<code>age</code>), si tenía una enfermedad resiudal (<code>resid.ds</code>), el grupo tratamiento (<code>rx</code>) y el estatus de ECOG (<code>ecog.ps</code>, donde <code>1</code> es mejor). Ver la ayuda de <code>ovarian</code> para más detalles.</p>
+</div>
+<div id="variables-numericas-a-factor" class="section level4">
+<h4><span class="header-section-number">3.1.2.2</span> Variables numéricas a <code>factor</code></h4>
+<p>Note en el resumen anterior, que las variables <code>resid.ds</code>, <code>rx</code> y <code>ecog.ps</code> son categóricas. Dado que los análisis que se realizarán enseguida permiten trabajar con estas variables como <code>factor</code>es, a continuación se convierten en factores usando <code>factor</code> dentro de <code>mutate</code>:</p>
+<pre class="r"><code># Se convierten en factor algunas variables creandose
+# otro data.frame:
+ovarianf &lt;- mutate(ovarian,
+      resid.ds = factor(resid.ds, labels = c(&#39;no&#39;, &#39;yes&#39;)),
+      rx = factor(rx, labels = c(&#39;A&#39;, &#39;B&#39;)),
+      ecog.ps = factor(ecog.ps, levels = c(1,2), labels = c(&#39;good&#39;, &#39;bad&#39;)),
+      agef = factor(ifelse(age &gt; 50, &#39;old&#39;, &#39;young&#39;))
+    )
+str(ovarianf)</code></pre>
+<pre><code>&#39;data.frame&#39;:   26 obs. of  7 variables:
+ $ futime  : num  59 115 156 421 431 448 464 475 477 563 ...
+ $ fustat  : num  1 1 1 0 1 0 1 1 0 1 ...
+ $ age     : num  72.3 74.5 66.5 53.4 50.3 ...
+ $ resid.ds: Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 2 2 2 2 1 2 2 2 1 ...
+ $ rx      : Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 1 1 2 1 1 2 2 1 2 ...
+ $ ecog.ps : Factor w/ 2 levels &quot;good&quot;,&quot;bad&quot;: 1 1 2 1 1 2 2 2 1 2 ...
+ $ agef    : Factor w/ 2 levels &quot;old&quot;,&quot;young&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+</div>
+<div id="estimando-la-funcion-de-supervivencia" class="section level4">
+<h4><span class="header-section-number">3.1.2.3</span> Estimando la función de supervivencia</h4>
+<p>El comando <code>survfit</code> (paquete: <code>survival</code>) permite estimar la función de supervivencia usando Kaplan-Meier. Igual que <code>lm</code>, el comando <code>survfit</code> recibe tres argumentos principales: <code>formula</code>, <code>data</code> y opcionalmente un <code>subset</code>.</p>
+<p>La <code>formula</code> tiene la forma: <code>Surv(time, event) ~ x</code>, donde el comando <code>Surv</code> crea un objeto de supervivencia para la respuesta a partir de argumento para la tiempo (<code>time</code>) de falla y otro para el tipo de evento ocurrido (<code>event</code>, censura o no). Vease la ayuda de <code>Surv</code> para más opciones. El término <code>x</code> en la fórmula indica la variable explicativa.</p>
+<p>Enseguida se ejecuta <code>survfit</code> sobre <code>ovarianf</code>:</p>
+<pre class="r"><code># Analisis univariado (sin variable explicativa)
+m &lt;- survfit( Surv(time = futime, event = fustat, type = &#39;right&#39;) ~ 1, data = ovarianf)
+
+# Lo mismo pero usando opciones por defecto
+m &lt;- survfit( Surv(futime, fustat) ~ 1, data = ovarianf )  </code></pre>
+<p>El objeto <code>m</code> es una <strong>lista</strong> de clase <code>survfit</code>. Para explorar su contenido usamos <code>names</code>:</p>
+<pre class="r"><code>names(m)  # elementos de la lista</code></pre>
+<pre><code> [1] &quot;n&quot;          &quot;time&quot;       &quot;n.risk&quot;     &quot;n.event&quot;    &quot;n.censor&quot;  
+ [6] &quot;surv&quot;       &quot;std.err&quot;    &quot;cumhaz&quot;     &quot;std.chaz&quot;   &quot;start.time&quot;
+[11] &quot;type&quot;       &quot;logse&quot;      &quot;conf.int&quot;   &quot;conf.type&quot;  &quot;lower&quot;     
+[16] &quot;upper&quot;      &quot;call&quot;      </code></pre>
+<p>Para obtener una tabla con la estimación de la función de supervivencia podemos usar <code>summary</code>, similar a las mostradas en la sección 5.4 de <span class="citation">Woodward (<a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>:</p>
+<pre class="r"><code># Tabla con estimacion de supervivencia Kaplan-Meier
+summary(m)</code></pre>
+<pre><code>Call: survfit(formula = Surv(futime, fustat) ~ 1, data = ovarianf)
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+   59     26       1    0.962  0.0377        0.890        1.000
+  115     25       1    0.923  0.0523        0.826        1.000
+  156     24       1    0.885  0.0627        0.770        1.000
+  268     23       1    0.846  0.0708        0.718        0.997
+  329     22       1    0.808  0.0773        0.670        0.974
+  353     21       1    0.769  0.0826        0.623        0.949
+  365     20       1    0.731  0.0870        0.579        0.923
+  431     17       1    0.688  0.0919        0.529        0.894
+  464     15       1    0.642  0.0965        0.478        0.862
+  475     14       1    0.596  0.0999        0.429        0.828
+  563     12       1    0.546  0.1032        0.377        0.791
+  638     11       1    0.497  0.1051        0.328        0.752</code></pre>
+<p>Para graficar la curva de supervivencia Kaplan-Meier usamos <code>plot</code> o el comando <code>ggsurvplot</code> (paquete: <code>survminer</code>):</p>
+<pre class="r"><code># Grafico con estimacion Kaplan-Meier
+plot(m, xlab = &#39;Tiempo&#39;, ylab = &#39;Prob of survival&#39;, col = &#39;blue&#39;,
+     mark.time = T) </code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/ova.univar2-1.png" width="384" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Grafico con estimacion Kaplan-Meier usando ggsurvplot:
+library(survminer)
+ggsurvplot(fit = m, censor = T)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/ova.univar3-1.png" width="288" style="display: block; margin: auto;" /></p>
+</div>
+<div id="estimando-la-supervivencia-a-un-tiempo-x" class="section level4">
+<h4><span class="header-section-number">3.1.2.4</span> Estimando la supervivencia a un tiempo <span class="math inline">\(x\)</span></h4>
+<p>Una cantidad de interés en el análisis de supervivencia es la probabilidad de sobrevir a cierto tiempo <span class="math inline">\(x\)</span>. Esta estimación puede realizarse usando el comando <code>summary</code> con el argumento <code>times</code>:</p>
+<pre class="r"><code># Prob. de sobrevivencia en time = 300
+summary(m, time = 300)</code></pre>
+<pre><code>Call: survfit(formula = Surv(futime, fustat) ~ 1, data = ovarianf)
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+  300     22       4    0.846  0.0708        0.718        0.997</code></pre>
+<p>Note que si sólo se imprime el objeto <code>m</code> (de clase <code>survfit</code>), aparece la estimación del tiempo <em>mediano</em> de supervivencia:</p>
+<pre class="r"><code>m   # Impresion del objeto. Aparece estimacion para el tiempo mediano</code></pre>
+<pre><code>Call: survfit(formula = Surv(futime, fustat) ~ 1, data = ovarianf)
+
+      n  events  median 0.95LCL 0.95UCL 
+     26      12     638     464      NA </code></pre>
+<p>El tiempo mediano fue 638. Compare este resultado con el gráfico anterior. Coincide.</p>
+</div>
+<div id="comparando-dos-grupos" class="section level4">
+<h4><span class="header-section-number">3.1.2.5</span> Comparando dos grupos</h4>
+<p>Suponga ahora que se desea comparar los tiempos de supervivencia entre los tratamientos A y B (variable <code>rx</code>). A continuación se ajusta un nuevo modelo con <code>survfit</code>:</p>
+<pre class="r"><code>m1 &lt;- survfit( Surv(futime, fustat) ~ rx, data = ovarianf )
+m1</code></pre>
+<pre><code>Call: survfit(formula = Surv(futime, fustat) ~ rx, data = ovarianf)
+
+      n events median 0.95LCL 0.95UCL
+rx=A 13      7    638     268      NA
+rx=B 13      5     NA     475      NA</code></pre>
+<p>La prueba <strong>long-rank</strong> <span class="citation">(Woodward, <a href="#ref-woodward2014" role="doc-biblioref">2014</a>, sección 5.5.2)</span> para comparar dos curvas de supervivencia se puede realizar con el comando <code>survdiff</code> (paquete: <code>survival</code>):</p>
+<pre class="r"><code># Prueba Long-Rank (no parametrica) para comparar dos curvas
+# de supervivencia:
+survdiff(Surv(futime, fustat) ~ rx, data = ovarianf, rho = 0 )</code></pre>
+<pre><code>Call:
+survdiff(formula = Surv(futime, fustat) ~ rx, data = ovarianf, 
+    rho = 0)
+
+      N Observed Expected (O-E)^2/E (O-E)^2/V
+rx=A 13        7     5.23     0.596      1.06
+rx=B 13        5     6.77     0.461      1.06
+
+ Chisq= 1.1  on 1 degrees of freedom, p= 0.3 </code></pre>
+<p>Además, un gráfico para los dos grupos, con <code>ggsurvplot</code>, es:</p>
+<pre class="r"><code># Grafico usando ggsurvplot:
+ggsurvplot(fit = m1, censor = T, pval = T, risk.table = T)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-55-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>El valor <span class="math inline">\(p = 0.3\)</span> que se indica en el gráfico es el valor <span class="math inline">\(p\)</span> de la prueba long-rank mostrada arriba. Note que la supervivencia del grupo B parece ser mayor que la del grupo A, no obstante, con <span class="math inline">\(\alpha = 0.05\)</span>, se retiene la hipótesis nula de igualdad.</p>
+</div>
+<div id="regresion-de-cox" class="section level4">
+<h4><span class="header-section-number">3.1.2.6</span> Regresión de Cox</h4>
+<div id="ajustando-el-modelo" class="section level5">
+<h5><span class="header-section-number">3.1.2.6.1</span> Ajustando el modelo</h5>
+<p>Si se busca evaluar simultaneamente más de una variable explicativa, la regresión de Cox es una opción. Este es un modelo semi-paramétrico que supone hazards proporcionales. Siguiendo la notación de <span class="citation">Woodward (<a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>, el modelo de regresión de Cox se puede escribir como:</p>
+<p><span class="math display">\[ \log{\phi} = \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k \ , \quad \text{ donde } \quad \phi = \dfrac{h_j(t)}{h_0(t)} \]</span>
+y <span class="math inline">\(h_j(t)/h_0(t)\)</span> es la razón de hazards que compara el hazard de fallar (muerte) cuando se esta expuesto al <span class="math inline">\(j-\)</span>ésimo nivel de las variables <span class="math inline">\(x_1, x_2, \ldots, x_k\)</span> contra el hazard de fallar cuando se esta expuesto al primer nivel o de referencia de las variables <span class="math inline">\(x_1, x_2, \ldots, x_k\)</span>.</p>
+<p>El modelo se ajusta en <strong>R</strong> con el comando <code>coxph</code> (paquete: <code>survival</code>). Sus argumentos principales son los mismos que aquellos en <code>survfit</code>.</p>
+<p>Enseguida se ejecuta un modelo de Cox incluyendo <code>rx</code>, <code>resid.ds</code> y <code>agef</code> como variables explicativas:</p>
+<pre class="r"><code># Ejecucion de modelo de Cox:
+m.cox &lt;- coxph(Surv(futime, fustat) ~ rx + resid.ds + agef + ecog.ps, 
+               data = ovarianf)</code></pre>
+</div>
+<div id="explorando-el-modelo-ajustado" class="section level5">
+<h5><span class="header-section-number">3.1.2.6.2</span> Explorando el modelo ajustado</h5>
+<p>Como es usual, el comando <code>summary</code> imprime un resumen de los coeficientes del modelo incluyendo valores <span class="math inline">\(p\)</span> e intervalos de confianza para los coeficientes:</p>
+<pre class="r"><code># Resumen del modelo de Cox:
+summary(m.cox)</code></pre>
+<pre><code>Call:
+coxph(formula = Surv(futime, fustat) ~ rx + resid.ds + agef + 
+    ecog.ps, data = ovarianf)
+
+  n= 26, number of events= 12 
+
+               coef exp(coef) se(coef)      z Pr(&gt;|z|)  
+rxB         -1.3814    0.2512   0.6448 -2.142   0.0322 *
+resid.dsyes  1.4470    4.2503   0.7292  1.984   0.0472 *
+agefyoung   -2.2013    0.1107   1.1069 -1.989   0.0467 *
+ecog.psbad   0.5859    1.7966   0.6329  0.926   0.3546  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+            exp(coef) exp(-coef) lower .95 upper .95
+rxB            0.2512     3.9803   0.07100    0.8891
+resid.dsyes    4.2503     0.2353   1.01801   17.7453
+agefyoung      0.1107     9.0368   0.01264    0.9686
+ecog.psbad     1.7966     0.5566   0.51966    6.2113
+
+Concordance= 0.782  (se = 0.065 )
+Likelihood ratio test= 12.19  on 4 df,   p=0.02
+Wald test            = 9.02  on 4 df,   p=0.06
+Score (logrank) test = 11.97  on 4 df,   p=0.02</code></pre>
+<p>Este mismo resumen se puede explorar de forma gráfica usando un diagrama de <strong>Forest</strong> (como los usados en metanalisis). Este diagrama lo hace el comando <code>ggforest</code> (paquete: <code>survminer</code>):</p>
+<pre class="r"><code># Diagrama de Forest para el modelo de Cox
+ggforest(m.cox, data = ovarianf)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/ova.forest-1.png" width="470.4" style="display: block; margin: auto;" /></p>
+<p>En la parte inferior de la impresión del <code>summary(m.cox)</code> se imprime una prueba razón de verosimilitud sobre la significancia general del modelo. Por otro lado, la razón de hazard (<span class="math inline">\(h_j(t)/h_0(t)\)</span>, en su escala original) se indica en la columna <code>exp(coef)</code> y un intervalo de confianza del 95% se indica en las columnas <code>lower .95</code> <code>upper .95</code> respectivamente. Una prueba <span class="math inline">\(Z\)</span> (de Wald) sobre la significancia de cada coeficiente se indica en las columnas <code>z</code> <code>Pr(&gt;|z|)</code>.</p>
+<p>Los resultados indican que, luego de ajustar por las otras variables en el modelo, la variable <code>rx</code> tiende a reducir el riesgo (hazard) de morir con el tratamiento B (sobre el A) de forma significativa (<span class="math inline">\(\hat{\phi} = 0.25\)</span>, valor <span class="math inline">\(p = 0.032\)</span>); los individuos <code>young</code> (menores a 50 años) tienen un hazard significativamente más bajo (<span class="math inline">\(\hat{\phi} = 0.11\)</span>, valor <span class="math inline">\(p = 0.047\)</span>) que aquellos mayores, y tener <code>resid.ds</code> incrementa el hazard de morir (<span class="math inline">\(\hat{\phi} = 4.25\)</span>, valor <span class="math inline">\(p = 0.047\)</span>). Finalmente, la variable <code>ecog.ps</code> resultó sin significancia estadística.</p>
+</div>
+<div id="supuesto-de-hazards-proporcionales" class="section level5">
+<h5><span class="header-section-number">3.1.2.6.3</span> Supuesto de hazards proporcionales</h5>
+<p>El comando <code>cox.zph</code> (paquete: <code>survival</code>) evalua la asunción de hazards proporcionales de la regresión de Cox.</p>
+<pre class="r"><code># Evaluacion de la asuncion de hazards proporcionales
+cox.zph(m.cox)</code></pre>
+<pre><code>               rho chisq     p
+rxB          0.229 0.511 0.475
+resid.dsyes -0.324 0.871 0.351
+agefyoung   -0.231 0.708 0.400
+ecog.psbad   0.337 1.083 0.298
+GLOBAL          NA 4.411 0.353</code></pre>
+<p>La impresión de <code>cox.zph</code> muestra, para cada variable explicativa, una prueba sobre la correlación entre el tiempo de supervivencia transformado y los residuales de Schoenfeld. La columna <code>rho</code> indica la correlación, y las columnas <code>chisq</code> y <code>p</code> indican una prueba de hipótesis sobre la correlación. La ausencia de correlación (no rechazo de la hipótesis nula) indica una validación del supuesto de hazards proporcionales. Para este caso, un <span class="math inline">\(\alpha = 0.05\)</span> se retiene la hipótesis nula y se valida el supuesto de hazard proporcionales.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="respuesta-dicotomica" class="section level2">
+<h2><span class="header-section-number">3.2</span> Respuesta dicotómica</h2>
+<p>El archivo <a href="https://1drv.ms/u/s!AlLSvdV-FwtugqIJe9d3kOkP-TntqQ">truchas.zip</a> continen los datos de la ocurrencia de una infección bacteriana (<code>bacteria</code>) en 193 truchas pescadas de tres estaciones (<code>est</code>) diferentes y en dos épocas (<code>epoca</code>: <code>0</code> = Seca y <code>1</code> = lluviosa) del año. Además, a cada individuo colectado, se le registró la talla (<code>talla</code> en mm). Este conjunto de datos será utilizado para ilustrar algunas técnicas de análisis de datos categóricos (tablas de contingencia, pruebas chi-cuadrado, etc.) incluyendo regresión logística. Se recomienda el libro de <span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span> para una presentación detallada de análisis de datos categóricos con <strong>R</strong>.</p>
+<div id="lectura-de-datos-2" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Lectura de datos</h3>
+<p>Los datos se encuentran en un archivo <code>.RData</code>. El comando <code>load</code> permite cargar al espacio de trabajo un archivo de este tipo:</p>
+<pre class="r"><code># Lectura de datos
+load(&quot;truchas.RData&quot;)  # Se cargan los datos al espacio de trabajo
+str(truchas)           # estructura del objeto</code></pre>
+<pre><code>&#39;data.frame&#39;:   193 obs. of  4 variables:
+ $ bacteria: int  0 0 0 0 1 0 0 0 0 0 ...
+ $ talla   : num  39.5 50.7 20.8 19.7 21.3 35.2 20.9 30.3 36.6 29.5 ...
+ $ est     : Factor w/ 3 levels &quot;a&quot;,&quot;b&quot;,&quot;c&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+ $ epoca   : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>summary(truchas)       # resumen del objeto</code></pre>
+<pre><code>    bacteria          talla       est    epoca 
+ Min.   :0.0000   Min.   : 5.40   a:63   0:99  
+ 1st Qu.:0.0000   1st Qu.:24.60   b:66   1:94  
+ Median :0.0000   Median :31.90   c:64         
+ Mean   :0.2591   Mean   :31.35                
+ 3rd Qu.:1.0000   3rd Qu.:36.90                
+ Max.   :1.0000   Max.   :54.70                </code></pre>
+<p>Enseguida se cambian las etiquetas de los niveles de <code>epoca</code> y se propone una categorización para la talla:</p>
+<pre class="r"><code># Se cambian las etiquetas de epoca y se categoriza la talla en
+# en tres intervalos:
+truchasf &lt;- mutate(truchas,
+  epoca = factor(epoca, labels = c(&#39;seca&#39;, &#39;lluviosa&#39;)),
+  tallaf = cut(talla, breaks = c(5, 28, 35, 55))
+)
+
+# Resumen del data.frame:
+summary(truchasf)</code></pre>
+<pre><code>    bacteria          talla       est         epoca        tallaf  
+ Min.   :0.0000   Min.   : 5.40   a:63   seca    :99   (5,28] :71  
+ 1st Qu.:0.0000   1st Qu.:24.60   b:66   lluviosa:94   (28,35]:52  
+ Median :0.0000   Median :31.90   c:64                 (35,55]:70  
+ Mean   :0.2591   Mean   :31.35                                    
+ 3rd Qu.:1.0000   3rd Qu.:36.90                                    
+ Max.   :1.0000   Max.   :54.70                                    </code></pre>
+<pre class="r"><code># Tabla de frecuencias plana
+ftable(tallaf ~ est +  epoca, data = truchasf)</code></pre>
+<pre><code>             tallaf (5,28] (28,35] (35,55]
+est epoca                                 
+a   seca                11      12      14
+    lluviosa             8       7      11
+b   seca                11       4      10
+    lluviosa            18      10      13
+c   seca                10      14      13
+    lluviosa            13       5       9</code></pre>
+<p>Se encontró una prevalencia general de la infección de 25.9%, además las variables <code>est</code>, <code>epoca</code> y <code>tallaf</code> estan distribuidas más o menos uniformemente entre sus respectivas categorías.</p>
+</div>
+<div id="exploracion-grafica-1" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Exploración gráfica</h3>
+<p>Con estos datos se busca analizar la respuesta <code>bacteria</code> en función de la <code>talla</code> (o <code>tallaf</code>), la <code>est</code> y la <code>epoca</code>. A continuación se realiza un gráfico de dispersión entre <code>bacteria</code> y <code>talla</code> para cada nivel de <code>est</code> y <code>epoca</code> usando <code>ggplot2</code>:</p>
+<pre class="r"><code># diagrama de dispersion
+ggplot(truchasf, aes(x = talla, y = bacteria, col = epoca, 
+                     shape = epoca)) +
+  geom_jitter(height = 0.05, size = 2) + facet_grid(~ est)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-59-1.png" width="593.28" style="display: block; margin: auto;" /></p>
+<p>Este gráfico no es muy claro, pero se nota que hay más puntos verdes (época lluviosa) para truchas infectadas, además hay más puntos infectados en tallas pequeñas y más puntos infectados en la estación c.</p>
+<p>Un gráfico de mosaico desde la librería <code>vcd</code> permite dar otra mirada a este conjunto de datos.</p>
+<pre class="r"><code># Tabla de conteos (array) de cuatro dimensiones:
+tab &lt;- xtabs(~ bacteria + est + epoca + tallaf, data = truchasf)
+
+library(vcd)  # Para grafico de mosico
+mosaic( tab, condvars = c(3,4), main = &quot;Gráfico de Mosaico&quot;)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-60-1.png" width="593.28" style="display: block; margin: auto;" /></p>
+<p>Otra versión del gráfico de mosaico es la siguiente:</p>
+<pre class="r"><code>mosaic( tab, condvars = c(3,4), shade = T, highlighting = &quot;bacteria&quot;,
+  highlighting_fill = c(&quot;grey70&quot;,&quot;salmon&quot;), main = &quot;Gráfico de Mosaico&quot;)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-61-1.png" width="593.28" style="display: block; margin: auto;" /></p>
+<p>Note que la infección aumenta hacia la estación c, es más frecuente en tallas pequeñas y en época lluviosa.</p>
+</div>
+<div id="resnum" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Resumen numérico: agregando la tabla original</h3>
+<p>Para una respuesta dicotómica como es el caso de este ejemplo, el resumen numérico ideal es el conteo del evento de interés o número de éxitos (individuos infectados) y, más aún, la proporción (o riesgo) del evento de interés. Enseguida se usa <code>group_by</code> y <code>summarise</code> para calcular el riesgo de infección como la proporción de truchas infectadas del total colectado en cada combinación de niveles de <code>epoca</code>, <code>est</code> y <code>tallaf</code>:</p>
+<pre class="r"><code># Se realiza el calculo del riesgo de infeccion por epoca,  estacion y tallaf:
+truchasg &lt;- truchasf %&gt;%
+  group_by(tallaf, est, epoca) %&gt;%
+  summarise(n = n(),
+            n_bac = sum(bacteria == 1),
+            p_bac = mean(bacteria == 1)) %&gt;%
+  ungroup()
+
+truchasg  # se imprime</code></pre>
+<pre><code># A tibble: 18 x 6
+   tallaf  est   epoca        n n_bac  p_bac
+   &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt;    &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
+ 1 (5,28]  a     seca        11     1 0.0909
+ 2 (5,28]  a     lluviosa     8     5 0.625 
+ 3 (5,28]  b     seca        11     2 0.182 
+ 4 (5,28]  b     lluviosa    18     8 0.444 
+ 5 (5,28]  c     seca        10     6 0.6   
+ 6 (5,28]  c     lluviosa    13    12 0.923 
+ 7 (28,35] a     seca        12     0 0     
+ 8 (28,35] a     lluviosa     7     1 0.143 
+ 9 (28,35] b     seca         4     0 0     
+10 (28,35] b     lluviosa    10     4 0.4   
+11 (28,35] c     seca        14     3 0.214 
+12 (28,35] c     lluviosa     5     2 0.4   
+13 (35,55] a     seca        14     0 0     
+14 (35,55] a     lluviosa    11     0 0     
+15 (35,55] b     seca        10     0 0     
+16 (35,55] b     lluviosa    13     1 0.0769
+17 (35,55] c     seca        13     2 0.154 
+18 (35,55] c     lluviosa     9     3 0.333 </code></pre>
+<p>La tabla <code>truchasg</code> es una versión <strong>agregada</strong> (o agrupada) de la tabla original <code>truchasf</code>. El número de filas de <code>truchasg</code> es ahora 18, no obstante, esta tabla agregada mantiene los 193 individuos de la tabla <code>truchasf</code>. Esto último es evidente al sumar la columna <code>n</code> de <code>truchasg</code>:</p>
+<pre class="r"><code># Suma o total de la columna n de la tabla &#39;truchasg&#39;:
+sum(truchasg$n)</code></pre>
+<pre><code>[1] 193</code></pre>
+<p>A continuación se gráfica el objeto <code>truchasg</code> usando <code>ggplot2</code>:</p>
+<pre class="r"><code># Se grafica el objeto anterior
+ggplot(truchasg, aes(x = tallaf, y = p_bac, shape  = est, 
+                     group = est, col = est)) + 
+  geom_point(aes(size = n)) + geom_path() + facet_grid(~ epoca) +
+  labs(x = &#39;Talla (mm)&#39;, y = &#39;Riesgo de Infección&#39;, 
+       shape = &#39;Estación&#39;, col = &#39;Estación&#39;)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-64-1.png" width="420.48" style="display: block; margin: auto;" /></p>
+<p>De nuevo se observa que el riesgo de infección es más alto en tallas pequeñas, en la época lluviosa y aumenta hacia la estación c.</p>
+</div>
+<div id="prueba-chi-cuadrado-y-analisis-relacionados" class="section level3">
+<h3><span class="header-section-number">3.2.4</span> Prueba Chi-cuadrado y análisis relacionados</h3>
+<p>Para evaluar independencia entre dos (o más) variables categóricas, por ejemplo <code>bacteria</code> y <code>estacion</code>, se puede ejecutar el comando <code>chisq.test</code> el cual cálcula una prueba chi-cuadrado (<span class="math inline">\(\chi^2\)</span>):</p>
+<pre class="r"><code># Primero se realiza tabla de frecuencias de dos vias:
+tabs &lt;- xtabs(~ est + bacteria, data = truchasf)
+
+# Se ejecuta la prueba chi2 sobre la tabla tabs:
+chisq.test(tabs, correct = F)</code></pre>
+<pre><code>
+    Pearson&#39;s Chi-squared test
+
+data:  tabs
+X-squared = 18.148, df = 2, p-value = 0.0001146</code></pre>
+<p>El comando <code>prop.test</code> permite comparar dos o más riesgos. La tabla <code>tabs</code> creada atras nos sirve para ejecutar el comando:</p>
+<pre class="r"><code># Comando prop.test:
+prop.test(x = tabs[, 2], n = rowSums(tabs), correct = F)</code></pre>
+<pre><code>
+    3-sample test for equality of proportions without continuity
+    correction
+
+data:  tabs[, 2] out of rowSums(tabs)
+X-squared = 18.148, df = 2, p-value = 0.0001146
+alternative hypothesis: two.sided
+sample estimates:
+   prop 1    prop 2    prop 3 
+0.1111111 0.2272727 0.4375000 </code></pre>
+<p>Con la expresión <code>tabs[, 2]</code> se extrae toda la 2da. columna de la matriz <code>tabs</code>. La 2da. columna contiene la cantidad de truchas infectadas por estación. El comando <code>rowSums</code> suma las filas de <code>tabs</code> lo cual equivale al número total de individuos colectados en cada estación. El argumento <code>correct</code> se usa para indicar si se quiere (o no) aplicar la corrección de Yate’s por continuidad, <span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span> sugieren no aplicar esta correción.</p>
+<p>Note que los dos comandos, <code>chisq.test</code> o <code>prop.test</code>, producen el mismo estadístico de prueba y el mismo valor <span class="math inline">\(p\)</span>, sólo que el último realiza la prueba desde la perspectiva de comparar dos (o más) proporciones (o riesgos).</p>
+<p>La tabla <a href="#tab:comandos">3.1</a> muestra algunos comandos, además de <code>chisq.test</code> o <code>prop.test</code>, que reciben una matriz similar a <code>tabs</code> y realizan análisis equivalentes o calculan estadísticos complementarios (p.e., riesgos relativos, razones de odds, etc.) en el contexto de datos categóricos. Otras librerías (no mencionadas en la tabla <a href="#tab:comandos">3.1</a>) como <code>Epi</code>, <code>epibasix</code>, <code>epiR</code> y <code>epiStats</code> tienen comandos análogos.</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:comandos">Table 3.1: </span>Comandos para realizar pruebas sobre tablas de contingencia en <strong>R</strong>
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Librería
+</th>
+<th style="text-align:left;">
+Comando
+</th>
+<th style="text-align:left;">
+Descripción
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>chisq.test</code>
+</td>
+<td style="text-align:left;">
+Prueba <span class="math inline">\(\chi^2\)</span> de independencia
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>summary</code>
+</td>
+<td style="text-align:left;">
+Sobre un objeto de clase <code>xtabs</code>, genera una prueba <span class="math inline">\(\chi^2\)</span> (igual que <code>chisq.test</code>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>prop.test</code>
+</td>
+<td style="text-align:left;">
+Prueba <span class="math inline">\(\chi^2\)</span> para comparar dos o mas riegos
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>fisher.test</code>
+</td>
+<td style="text-align:left;">
+Prueba exacta de Fisher
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>mcnemar.test</code>
+</td>
+<td style="text-align:left;">
+Prueba de McNemar’s
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stats
+</td>
+<td style="text-align:left;">
+<code>mantelhaen.test</code>
+</td>
+<td style="text-align:left;">
+Prueba de Mantel-Haenszel
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vcd
+</td>
+<td style="text-align:left;">
+<code>assocstats</code>
+</td>
+<td style="text-align:left;">
+Prueba <span class="math inline">\(\chi^2\)</span>, LRT, Coeficiente <span class="math inline">\(\phi\)</span>, <span class="math inline">\(V\)</span> de Cramer’s. Incluye manejo de estratos
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+vcd
+</td>
+<td style="text-align:left;">
+<code>loddsratio</code>
+</td>
+<td style="text-align:left;">
+(Log) Razones de Odds, Pruebas de hipótesis, IC, y manejo de estratos
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+epitools
+</td>
+<td style="text-align:left;">
+<code>riskratio</code>
+</td>
+<td style="text-align:left;">
+Riesgo relativo, IC y pruebas de hipótesis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+epitools
+</td>
+<td style="text-align:left;">
+<code>oddsratio</code>
+</td>
+<td style="text-align:left;">
+Razón de Odds, IC y pruebas de hipótesis
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gmodels
+</td>
+<td style="text-align:left;">
+<code>CrossTable</code>
+</td>
+<td style="text-align:left;">
+Tabla de contingencia con pruebas de hipótesis (Fisher, <span class="math inline">\(\chi^2\)</span>, McNemar) con opción de solicitar proporciones por fila o columna
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="reglog" class="section level3">
+<h3><span class="header-section-number">3.2.5</span> Regresión logística</h3>
+<p>El comando <code>glm</code> (de <strong>modelo lineal generalizado</strong>) permite ajustar un modelo de regresión logística. Similar a <code>lm</code> o <code>coxph</code>, el comando <code>glm</code> recibe los argumentos: <code>formula</code>, <code>data</code> y <code>subset</code>. No obstante, aparece también el argumento <code>family</code> en el cual se indica el modelo de distribución para los datos (o los errores). Para la regresión logística se debe específicar <code>family = binomial(link = logit)</code>.</p>
+<p>El modelo de regresión logística se puede ajustar desde los datos en lista (una fila por individuo) (<code>truchasf</code>) o desde los datos agregados (<code>truchasg</code>, ver <a href="#resnum">atras</a>). Enseguida se ejecuta un modelo de regresión logística (sin incluir interacciones por simplicidad) de tres formas distintas:</p>
+<pre class="r"><code># Ajuste de modelo de regresion logistica: Tres formas diferentes
+
+# Forma 1: usando datos en lista
+m1 &lt;- glm(bacteria ~ tallaf +  est + epoca, data = truchasf, 
+         family = binomial(link = logit))
+
+# Forma 2: usando datos agregados y respuesta = proporcion
+m2 &lt;- glm(n_bac/n ~ tallaf +  est + epoca, data = truchasg, 
+         family = binomial(link = logit), weights = n)
+
+# Forma 3: usando datos agregados y respuesta = matriz
+m3 &lt;- glm(cbind(n_bac, n - n_bac) ~ tallaf +  est + epoca, data = truchasg, 
+         family = binomial(link = logit))</code></pre>
+<p>En el código anterior, la <strong>forma 1</strong> usa los datos en lista (una fila por individuo) y la respuesta es la variable <code>bacteria</code>, aquella que contiene la presencia (<code>1</code>) o ausencia (<code>0</code>) de la bacteria en cada individuo. Como información adicional, la variable respuesta también puede ser un factor o una columna lógica.</p>
+<p>La <strong>forma 2</strong> emplea los datos agregados y usa como respuesta la división <code>n_bac/n</code>, es decir, la proporción entre el número de individuos infectados (<code>n_bac</code>) y el número total (<code>n</code>) de individuos muestreados. Bien se hubiese podido usar aquí la columna <code>p_bac</code> de <code>truchasg</code>, la cual representa el mismo cálculo. Se utiliza además el argumento <code>weights</code> para indicar cual es el <em>peso</em> que se le quiere dar a cada fila de la tabla. En este caso, dicho <em>peso</em> debe ser igual al número total (<code>n</code>) de individuos colectados en cada fila.</p>
+<p>La <strong>forma 3</strong> utiliza también los datos agregados, pero usa como respuesta una matriz (formada por <code>cbind</code>) de dos columnas: el número de éxitos (número de truchas infectadas = <code>n_bac</code>) y el número de fracasos (número de truchas no infectadas = <code>n - n_bac</code>).</p>
+<p>Las tres formas producen las mismas estimaciones para los coeficientes del modelo y los mismos resultdos en pruebas de hipótesis sobre dichos coeficientes. A continuación se usa el comando <code>summary</code> sobre cada uno para verificar esto:</p>
+<pre class="r"><code># Comparacion de los coeficientes y pruebas de hipotesis 
+# entre las tres formas de ejecucion mostradas arriba
+summary(m1)$coef %&gt;% round(4)</code></pre>
+<pre><code>              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)    -1.9881     0.5533 -3.5929   0.0003
+tallaf(28,35]  -1.5383     0.4919 -3.1271   0.0018
+tallaf(35,55]  -2.7243     0.5745 -4.7421   0.0000
+estb            0.3883     0.5624  0.6905   0.4899
+estc            2.3076     0.5729  4.0280   0.0001
+epocalluviosa   1.7878     0.4544  3.9340   0.0001</code></pre>
+<pre class="r"><code>summary(m2)$coef %&gt;% round(4)</code></pre>
+<pre><code>              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)    -1.9881     0.5534 -3.5927   0.0003
+tallaf(28,35]  -1.5383     0.4919 -3.1271   0.0018
+tallaf(35,55]  -2.7243     0.5745 -4.7418   0.0000
+estb            0.3883     0.5624  0.6904   0.4899
+estc            2.3076     0.5729  4.0278   0.0001
+epocalluviosa   1.7878     0.4545  3.9338   0.0001</code></pre>
+<pre class="r"><code>summary(m3)$coef %&gt;% round(4)</code></pre>
+<pre><code>              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept)    -1.9881     0.5534 -3.5927   0.0003
+tallaf(28,35]  -1.5383     0.4919 -3.1271   0.0018
+tallaf(35,55]  -2.7243     0.5745 -4.7418   0.0000
+estb            0.3883     0.5624  0.6904   0.4899
+estc            2.3076     0.5729  4.0278   0.0001
+epocalluviosa   1.7878     0.4545  3.9338   0.0001</code></pre>
+<p>A pesar de la igualdad en los resultados del modelo ajustado obtenidos desde datos en lista o datos agregados, es recomendable usar el modo agregado debido a que este permite realizar una mejor evaluación de los residuales del modelo y ejecutar una prueba deviance de bondad de ajuste del modelo.</p>
+<div id="prueba-global-sobre-el-modelo-diferencia-de-deviance-o-lrt" class="section level4">
+<h4><span class="header-section-number">3.2.5.1</span> Prueba global sobre el modelo: Diferencia de Deviance o LRT</h4>
+<p>Una primera prueba de hipótesis de interés es si el modelo explica de forma significativa la variación en la respuesta. Esto se puede realizar comparando el <strong>deviance</strong> del modelo completo con el <strong>deviance</strong> del modelo sólo con el intercepto. La diferencia de deviance sigue una distribución <span class="math inline">\(\chi^2\)</span> con <span class="math inline">\(v\)</span> grados de libertad donde <span class="math inline">\(v\)</span> se obtiene tomando la diferencia de los grados de libertad de cada modelo. Esta es una prueba de razón de versomilitud (LRT, de sus siglas en ingles). El comando <code>summary</code> imprime los dos deviance y sus correspondientes grados de libertad pero no realiza la prueba.</p>
+<pre class="r"><code># Resumen del modelo
+summary(m2)</code></pre>
+<pre><code>
+Call:
+glm(formula = n_bac/n ~ tallaf + est + epoca, family = binomial(link = logit), 
+    data = truchasg, weights = n)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.0814  -0.5653  -0.1163   0.1305   1.3969  
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -1.9881     0.5534  -3.593 0.000327 ***
+tallaf(28,35]  -1.5383     0.4919  -3.127 0.001766 ** 
+tallaf(35,55]  -2.7243     0.5745  -4.742 2.12e-06 ***
+estb            0.3883     0.5624   0.690 0.489913    
+estc            2.3076     0.5729   4.028 5.63e-05 ***
+epocalluviosa   1.7878     0.4545   3.934 8.36e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 77.712  on 17  degrees of freedom
+Residual deviance:  8.577  on 12  degrees of freedom
+AIC: 51.939
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<p>En la salida anterior, el <code>Null deviance</code> es deviance del modelo sólo con el intercepto (<span class="math inline">\(\beta_0\)</span>) y el <code>Residual deviance</code> es el deviance del modelo completo (el que se ajustó). A continuación se extrae cada deviance y se realiza manualmente la prueba LRT:</p>
+<pre class="r"><code># Prueba Deviance donde se compara el Deviance de un modelo solo
+# con el intercepto contra el modelo completo:
+D.null  &lt;- m2$null.deviance     # Deviance nulo (modelo solo con beta0)
+D.full  &lt;- m2$deviance          # Deviance del modelo completo
+v.null  &lt;- m2$df.null           # grados de libertad del modelo nulo
+v.full  &lt;- m2$df.residual       # grados de libertad del modelo completo
+
+# Se calcula e imprime la prueba en un tibble:
+tibble(
+  estad   = D.null - D.full,
+  v       = v.null - v.full,
+  valor_p = pchisq(q = estad, df = v, lower.tail = F)
+) %&gt;% as.data.frame()</code></pre>
+<pre><code>     estad v      valor_p
+1 69.13491 5 1.551012e-13</code></pre>
+<p>Dado que el valor <span class="math inline">\(p &lt; 0.05\)</span>, se concluye que el modelo, o alguno de sus términos, explican significativamente la variación en el riesgo de infección. Esta prueba se puede ejecutar ajustando el modelo nulo y usando <code>anova</code> para compararlo con el modelo completo como se muestran en el siguiente código:</p>
+<pre class="r"><code># Modelo nulo (solo con el intercepto):
+m0 &lt;- glm(n_bac/n ~  1, data = truchasg,
+         family = binomial(link = logit), weights = n)
+
+# Prueba de Diferencia de Deviance o LRT: nulo vs. completo
+anova(m0, m2, test = &#39;Chisq&#39;)</code></pre>
+<pre><code>Analysis of Deviance Table
+
+Model 1: n_bac/n ~ 1
+Model 2: n_bac/n ~ tallaf + est + epoca
+  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+1        17     77.712                          
+2        12      8.577  5   69.135 1.551e-13 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Note que se obtiene el mismo resultado anterior.</p>
+</div>
+<div id="pruebas-deviance-sobre-cada-variable-predictora" class="section level4">
+<h4><span class="header-section-number">3.2.5.2</span> Pruebas Deviance sobre cada variable predictora</h4>
+<p>El comando <code>anova</code> imprime pruebas donde se comparan Deviance de modelos en forma secuencial (pruebas tipo I) y el comando <code>Anova</code> (paquete: <code>car</code>) imprime prueba una variable ajustando por las demás en el modelo (pruebas tipo II):</p>
+<pre class="r"><code># Pruebas tipo 1 o secuenciales
+anova(m2, test = &#39;Chisq&#39;)</code></pre>
+<pre><code>Analysis of Deviance Table
+
+Model: binomial, link: logit
+
+Response: n_bac/n
+
+Terms added sequentially (first to last)
+
+       Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+NULL                      17     77.712              
+tallaf  2   30.658        15     47.054 2.202e-07 ***
+est     2   20.430        13     26.624 3.662e-05 ***
+epoca   1   18.047        12      8.577 2.155e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># Pruebas tipo 2 o parciales (del paquete &#39;car&#39;)
+Anova(m2)</code></pre>
+<pre><code>Analysis of Deviance Table (Type II tests)
+
+Response: n_bac/n
+       LR Chisq Df Pr(&gt;Chisq)    
+tallaf   32.107  2  1.066e-07 ***
+est      24.588  2  4.580e-06 ***
+epoca    18.047  1  2.155e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="coefRegLog" class="section level4">
+<h4><span class="header-section-number">3.2.5.3</span> Coeficientes, pruebas de hipótesis e IC95% sobre coeficientes</h4>
+<p>Como vimos arriba, el comando <code>summary</code> imprime también los coeficientes del modelo y pruebas tipo Wald para cada coeficiente. La regresión logística tiene como respuesta el <em>logit</em> de la infección, el cuál representa el <em>log</em> del <em>odds</em> de la infección. En este sentido, los coeficientes del modelo (impresos por el comando <code>summary</code>) están en escala <em>logit</em>. El comando <code>ci.lin</code> (paquete: <code>Epi</code>) imprime la misma tabla de coeficientes en escala <em>logit</em>, pero adicionalmente permite exponenciar los coeficientes para obtener <em>odds</em> y <em>oddsratio</em>:</p>
+<pre class="r"><code># Se imprimen coeficientes e IC95 para coeficientes en escala
+# original y tomando su exponencial.
+library(Epi)
+ci.lin( m2 , Exp = T) %&gt;% round(4)</code></pre>
+<pre><code>              Estimate StdErr       z      P exp(Est.)   2.5%   97.5%
+(Intercept)    -1.9881 0.5534 -3.5927 0.0003    0.1370 0.0463  0.4051
+tallaf(28,35]  -1.5383 0.4919 -3.1271 0.0018    0.2147 0.0819  0.5632
+tallaf(35,55]  -2.7243 0.5745 -4.7418 0.0000    0.0656 0.0213  0.2023
+estb            0.3883 0.5624  0.6904 0.4899    1.4745 0.4897  4.4394
+estc            2.3076 0.5729  4.0278 0.0001   10.0502 3.2697 30.8918
+epocalluviosa   1.7878 0.4545  3.9338 0.0001    5.9761 2.4523 14.5632</code></pre>
+<p>La columna títulada <code>exp(Est.)</code> muestra el odds (para el intercepto) y el oddsratio (para los otros términos) y las columnas títuladas <code>2.5%</code> y <code>97.5%</code> indican IC95% para los coeficientes.</p>
+<p>El comando <code>ggcoef</code> (paquete: <code>GGally</code>) también permite visualizar los coeficientes en la escala orignal o exponencial:</p>
+<pre class="r"><code>library(gridExtra)  # para usar comando grid.arrange
+# Grafico de coeficientes en la escala original y tomando
+# exponencial
+grid.arrange(
+  ggcoef(m2, exponentiate = F) + xlab(&#39;logit estimate &#39;),
+  ggcoef(m2, exponentiate = T) + xlab(&#39;exp(logit) estimate = odds y or&#39;),
+  ncol = 2
+)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-74-1.png" width="604.8" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># el comanod grid.arrange (libreria: gridExtra) permite ubicar dos o mas
+# graficos ggplot2 en una misma ventana grafica</code></pre>
+</div>
+<div id="evaluando-supuestos-y-diagnosticos-1" class="section level4">
+<h4><span class="header-section-number">3.2.5.4</span> Evaluando supuestos y diagnósticos</h4>
+<p>Un diagnóstico del ajuste del modelo y la revisión de los supuestos del mismo se realiza, en parte, usando los <strong>residuales</strong>. De acuerdo a autores como <span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span> o <span class="citation">Woodward (<a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>, es mejor evaluar los residuales obtenidos de un modelo ajustado <strong>desde datos agregados</strong>. Incluso entre más grande sea el <span class="math inline">\(n\)</span> en cada fila y la proporción (observada) de éxitos en cada fila no este cerca a <span class="math inline">\(0\)</span> ó a <span class="math inline">\(1\)</span>, es mejor <span class="citation">(Bilder &amp; Loughin, <a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span>.</p>
+<p>Para el caso del ejemplo de las truchas, la tabla con los datos agregados (<code>truchasg</code>) tiene algunas filas con <code>n</code> bajos y algunas filas con <code>p_bac</code> en <span class="math inline">\(0\)</span>. Esto podría sugerir ajustar un modelo desde una tabla con un agrupamiento mayor, quizas usar dos categorías (en lugar de tres) para la talla podría mejorar esta condición. Por ahora trabajaremos con el modelo guardado en el objeto <code>m2</code>.</p>
+<p>El comando <code>plot</code> sobre un objeto <code>glm</code> imprime hasta seis gráficos de diagnóstico que involucran a los residuales. A continuación se muestran tres de ellos:</p>
+<pre class="r"><code># Se configura o prepara la ventana grafica para ubicar tres figuras en
+# una fila y tres columnas. Ademas se modifican las margenes y el tamano
+# del texto en el grafico en general:
+par(mfrow = c(1,3), mar = c(3.5, 3.5, 2, 1), mgp = c(2,1,0), cex = 0.9)
+plot(m2, which = 1)   # residuales vs. fitted (predictor lineal)
+plot(m2, which = 2)   # Cuantil-cuantil de residuales deviance estandarizados
+plot(m2, which = 4)   # Distancia de Cook (filas influenciales)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-75-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span> (sección 5.2.1, ejemplo de pág. 290) discuten en detalle el uso de los residuales en modelos <code>glm</code> para evaluación del ajuste del modelo. Ellos recomiendan el uso de los residuales de Pearson estándarizados. Enseguida se indica como se pueden extraer desde el objeto <code>m2</code> y la construcción de algunas gráficos relevantes.</p>
+<pre class="r"><code># Se crea tabla con valores ajustados, predictor lineal y 
+# y dos tipos de residuales:
+  truchasg.m2 &lt;- mutate(truchasg,
+    pi.hat       = predict(m2, type = &#39;response&#39;),    # prop ajustada (igual que mg1$fit)
+    pred.lin     = m2$linear.predictors,              # predictor lineal (logit)
+    res.est      = rstandard(m2, type = &#39;pearson&#39;)    # residuales estandarizados de Pearson
+  )
+
+truchasg.m2  # explore la tabla generada</code></pre>
+<pre><code># A tibble: 18 x 9
+   tallaf  est   epoca        n n_bac  p_bac  pi.hat pred.lin res.est
+   &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt;    &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (5,28]  a     seca        11     1 0.0909 0.120     -1.99  -0.375 
+ 2 (5,28]  a     lluviosa     8     5 0.625  0.450     -0.200  1.41  
+ 3 (5,28]  b     seca        11     2 0.182  0.168     -1.60   0.156 
+ 4 (5,28]  b     lluviosa    18     8 0.444  0.547      0.188 -1.47  
+ 5 (5,28]  c     seca        10     6 0.6    0.579      0.319  0.184 
+ 6 (5,28]  c     lluviosa    13    12 0.923  0.892      2.11   0.447 
+ 7 (28,35] a     seca        12     0 0      0.0286    -3.53  -0.641 
+ 8 (28,35] a     lluviosa     7     1 0.143  0.149     -1.74  -0.0590
+ 9 (28,35] b     seca         4     0 0      0.0416    -3.14  -0.430 
+10 (28,35] b     lluviosa    10     4 0.4    0.206     -1.35   2.01  
+11 (28,35] c     seca        14     3 0.214  0.228     -1.22  -0.183 
+12 (28,35] c     lluviosa     5     2 0.4    0.639      0.569 -1.33  
+13 (35,55] a     seca        14     0 0      0.00890   -4.71  -0.368 
+14 (35,55] a     lluviosa    11     0 0      0.0510    -2.92  -0.870 
+15 (35,55] b     seca        10     0 0      0.0131    -4.32  -0.378 
+16 (35,55] b     lluviosa    13     1 0.0769 0.0734    -2.54   0.0589
+17 (35,55] c     seca        13     2 0.154  0.0828    -2.40   1.12  
+18 (35,55] c     lluviosa     9     3 0.333  0.350     -0.617 -0.160 </code></pre>
+<p>Ahora se ejecutan algunos gráficos relevantes sugeridos por <span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span> usando <code>ggplot2</code>:</p>
+<pre class="r"><code># pi.hat vs. res.est
+p1 &lt;- ggplot(truchasg.m2, aes(x = pi.hat, y = res.est)) +
+  geom_point(size = 3, pch = 21, fill = &#39;blue&#39;) + geom_smooth() + 
+  geom_hline(yintercept = c(-3,0,3), lty = 2, lwd = 0.5) +
+  ylim(-3.5, 3.5)
+
+# est vs. res.est
+p2 &lt;- ggplot(truchasg.m2, aes(x = est, y = res.est)) +
+  geom_jitter(width = 0.1, size = 3, pch = 21, fill = &#39;blue&#39;) +
+  geom_hline(yintercept = c(-3,0,3), lty = 2, lwd = 0.5) +
+  ylim(-3.5, 3.5)
+
+# pred.lin vs. res.est
+p3 &lt;- ggplot(truchasg.m2, aes(x = pred.lin, y = res.est)) +
+  geom_point(size = 3, pch = 21, fill = &#39;blue&#39;) + geom_smooth() +
+  geom_hline(yintercept = c(-3,0,3), lty = 2, lwd = 0.5) +
+  ylim(-3.5, 3.5)
+
+# Se grafican los tres juntos en un arreglo de tres columnas 
+# y una fila:
+grid.arrange(p1, p2, p3, ncol = 3)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-77-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>En los tres gráficos se busca que no existan patrones marcados (p.e., parabolas, o que tiendan a incrementar su varianza) en los residuales y que no aparezcan residuales extremos mayores que 3 (se espera que estos residuales siga una distribución aproximadamente normal).</p>
+</div>
+<div id="pruebas-de-bondad-de-ajuste" class="section level4">
+<h4><span class="header-section-number">3.2.5.5</span> Pruebas de Bondad de ajuste</h4>
+<p>El <em>deviance</em> de un modelo representa la comparación de la verosimilitud del modelo evaluado con la verosimilitud de uno llamado el modelo <em>saturado</em> el cual implica un ajuste perfecto a los datos (el modelo <em>saturado</em> tiene un parámetro para cada fila de la tabla de datos).</p>
+<p>Así el <em>deviance</em> de un modelo se puede usar para evaluar si un modelo más simple (como el evaluado) que el saturado aún permite explicar la respuesta, luego se busca no rechazar H<span class="math inline">\(_0\)</span> (igualdad en las verosimilitudes).</p>
+<pre class="r"><code># Prueba Deviance para evaluar la bondad de ajuste del modelo
+# Debe aplicarse solo para modelos ajustados desde datos agregados
+# con un n razonablemente grande en cada fila
+tibble(
+  D       = m2$deviance,      # Deviance =  D(Modelo evaluado) - D(Modelo saturado)
+  v       = m2$df.residual ,  # grados de libertad
+  valor_p = pchisq(q = D, df = v, lower.tail = F)  # valor p
+) %&gt;% as.data.frame()</code></pre>
+<pre><code>      D  v   valor_p
+1 8.577 12 0.7385723</code></pre>
+<p>La prueba <strong>Deviance de bondad de ajuste</strong> sólo debe realizarse desde modelos ajustados con datos <strong>agregados</strong> <span class="citation">(Bilder &amp; Loughin, <a href="#ref-bilder2014" role="doc-biblioref">2014</a>; Woodward, <a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>. Dado que el valor <span class="math inline">\(p = 0.739 &gt; 0.05\)</span> es grande, se retiene la hipótesis nula de iguadad y se concluye que el modelo propuesto tiene un ajuste razonable a los datos.</p>
+<p>La prueba de <strong>Hosmer-Lemeshow</strong> es otra prueba de bondad de ajuste disponible para modelos ejecutados desde datos en lista (una fila por individuo) <span class="citation">(Woodward, <a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>. La librería <code>generalhoslem</code> <span class="citation">(Jay, <a href="#ref-jay2018" role="doc-biblioref">2018</a>)</span> incluye el comando <code>logitgof</code> que realiza esta prueba.</p>
+<pre class="r"><code># Prueba Hosmer-Lemeshow sobre el objeto m1 (desde datos en lista)
+library(generalhoslem)  # se activa libreria
+logitgof(obs = truchasf$bacteria,   # valores observados
+         exp = m1$fitted.values     # valores esperados o predichos
+         )</code></pre>
+<pre><code>
+    Hosmer and Lemeshow test (binary model)
+
+data:  truchasf$bacteria, m1$fitted.values
+X-squared = 4.4613, df = 8, p-value = 0.8133</code></pre>
+<p>Dado que el valor <span class="math inline">\(p = 0.813 &gt; 0.05\)</span> es grande, se retiene la hipótesis nula y se concluye que el modelo tiene un ajuste razonable a los datos.</p>
+</div>
+<div id="sobredispersion" class="section level4">
+<h4><span class="header-section-number">3.2.5.6</span> Sobredispersión</h4>
+<p>La <strong>sobredispersión</strong> es cuando el modelo ajustado muestra una mayor variación que la esperada bajo una distribución binomial. Una forma de revisar esta condición es comparando el deviance del modelo con sus grados de libertad. Si el deviance del modelo es mucho más grande que sus grados de libertad, puede existir sobredispersión. Igualmente, una gran cantidad de residuales estandarizados de Pearson inusualmente grandes es indicio de sobredispersión <span class="citation">(Bilder &amp; Loughin, <a href="#ref-bilder2014" role="doc-biblioref">2014</a>; Woodward, <a href="#ref-woodward2014" role="doc-biblioref">2014</a>)</span>.</p>
+<p>De cálculos anteriores, observe que el deviance del modelo <code>m2</code> es <code>m2$deviance</code> = 8.577, el cual es menor que sus grados de libertad <code>m2$df.residual</code> = 12, luego no parece ocurrir sobredispersión en este ejemplo. Además, los gráficos de residuales realizados arriba tampoco muestran un exceso de resiudales extremos, de hecho no aparece ninguno. Para detalles respecto a la sobredispersión revisar <span class="citation">Bilder &amp; Loughin (<a href="#ref-bilder2014" role="doc-biblioref">2014</a>)</span>.</p>
+</div>
+<div id="curva-roc-y-area-bajo-la-curva" class="section level4">
+<h4><span class="header-section-number">3.2.5.7</span> Curva ROC y Área bajo la curva</h4>
+<p>El poder clasificatorio del modelo para discriminar éxitos (individuo infectado) y fracasos (individuo sano) se puede evaluar con la curva ROC. El comando <code>ROC</code> (paquete: <code>Epi</code>) construye una curva ROC para un modelo de regresión logística (ajustado desde datos en lista) y calcula el área bajo la curva (AUC) entre otros parámetros:</p>
+<pre class="r"><code>library(Epi)
+# Se hace curva ROC y se calcula el AUC = area bajo la curva
+par(mar = c(4,4,1,1), mgp = c(2,1,0))  # se cambian las margenes de la figura
+ROC(form = formula(m1), plot = &#39;ROC&#39;, data = truchasf)</code></pre>
+<p><img src="Curso_R_Epi_abr_2019_files/figure-html/unnamed-chunk-80-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>En el código anterior, el comando <code>formula</code> extrae la fórmula del objeto <code>m1</code> creado atras. Aquí debe usarse el modelo ajustado desde los datos en lista (una fila por individuo). Observe que la curva ROC se ubica muy por encima de la diagonal y el AUC = 0.855 &gt; 0.5, indicando que el modelo realiza una clasificación (de éxitos y fracasos) mejor que la que se produciría por azar. La librería <code>pROC</code> <span class="citation">(Robin et al., <a href="#ref-robin2011" role="doc-biblioref">2011</a>)</span> esta especializada en calcular curvas ROC.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referencias</h1>
+<div id="refs" class="references">
+<div id="ref-bilder2014">
+<p>Bilder, C. R., &amp; Loughin, T. M. (2014). <em>Analysis of categorical data with R</em>. Chapman; Hall/CRC.</p>
+</div>
+<div id="ref-brostrom2012">
+<p>Broström, G. (2012). <em>Event history analysis with R</em>. CRC Press.</p>
+</div>
+<div id="ref-chang2012">
+<p>Chang, W. (2012). <em>R graphics cookbook: Practical recipes for visualizing data</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-fox2011">
+<p>Fox, J., &amp; Weisberg, S. (2011). <em>An R companion to applied regression</em> (Second). Thousand Oaks CA: Sage. Retrieved from <a href="http://socserv.socsci.mcmaster.ca/jfox/Books/Companion">http://socserv.socsci.mcmaster.ca/jfox/Books/Companion</a></p>
+</div>
+<div id="ref-jay2018">
+<p>Jay, M. (2018). <em>Generalhoslem: Goodness of fit tests for logistic regression models</em>. Retrieved from <a href="https://CRAN.R-project.org/package=generalhoslem">https://CRAN.R-project.org/package=generalhoslem</a></p>
+</div>
+<div id="ref-le2016">
+<p>Le, C. T., &amp; Eberly, L. E. (2016). <em>Introductory biostatistics</em> (2nd ed.). Wiley-Interscience.</p>
+</div>
+<div id="ref-lenth2019">
+<p>Lenth, R. (2019). <em>Emmeans: Estimated marginal means, aka least-squares means</em>. Retrieved from <a href="https://CRAN.R-project.org/package=emmeans">https://CRAN.R-project.org/package=emmeans</a></p>
+</div>
+<div id="ref-meyer2017">
+<p>Meyer, D., Zeileis, A., &amp; Hornik, K. (2017). <em>Vcd: Visualizing categorical data</em>.</p>
+</div>
+<div id="ref-rcoreteam2019">
+<p>R Core Team. (2019). <em>R: A language and environment for statistical computing</em>. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from <a href="https://www.R-project.org/">https://www.R-project.org/</a></p>
+</div>
+<div id="ref-robin2011">
+<p>Robin, X., Turck, N., Hainard, A., Tiberti, N., Lisacek, F., Sanchez, J.-C., et al. (2011). PROC: An open-source package for r and s+ to analyze and compare roc curves. <em>BMC Bioinformatics</em>, <em>12</em>, 77.</p>
+</div>
+<div id="ref-tableman2003">
+<p>Tableman, M., &amp; Kim, J. S. (2003). <em>Survival analysis using S: Analysis of time-to-event data</em>. Chapman; Hall/CRC.</p>
+</div>
+<div id="ref-wickham2016">
+<p>Wickham, H. (2016). <em>Ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. Retrieved from <a href="http://ggplot2.org">http://ggplot2.org</a></p>
+</div>
+<div id="ref-wickham2017b">
+<p>Wickham, H. (2017). <em>Tidyverse: Easily install and load the ’tidyverse’</em>. Retrieved from <a href="https://CRAN.R-project.org/package=tidyverse">https://CRAN.R-project.org/package=tidyverse</a></p>
+</div>
+<div id="ref-wickham2017">
+<p>Wickham, H., &amp; Grolemund, G. (2017). <em>R for data science: Import, tidy, transform, visualize, and model data</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-woodward2014">
+<p>Woodward, M. (2014). <em>Epidemiology: Study design and data analysis</em> (2nd ed.). Boca Raton, Florida: CRC Press.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
