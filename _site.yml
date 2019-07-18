@@ -1,0 +1,14 @@
+name: 'paguzman'
+output_dir: '_site'
+navbar:
+  title: 'Pablo A. Guzmán'
+  left:
+    - text: 'Home'
+      href: index.html
+    - text: 'About'
+      href: about.html
+    - text: 'Recursos'
+      href: Recursos.html   
+  right:
+    - icon: fa-envelope fa-lg
+      href: contact.html

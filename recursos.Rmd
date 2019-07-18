@@ -1,0 +1,28 @@
+<br>
+
+#### Instalación del `R` y `Rstudio`
+
+* Página del [`R`](https://www.r-project.org/): https://www.r-project.org/ 
+
+* Página del [`RStudio`](https://www.rstudio.com/): https://www.rstudio.com/ 
+
+* Instrucciones para instalar `R` y `RStudio`: [Descargar](descargas/Guia_instalacion_software R_RStudio.pdf)
+
+<br>
+
+#### Rmarkdown y paquetes relacionados
+
+* Prepare su computador para trabajar con `Rmarkdown` en `R`+`Rstudio`: [Entre aquí](Prepare_Rmarkdown.html).
+
+<br>
+
+#### Cursos
+
+* Curso: Análisis de datos con `R` (abr-may / 2019). [Entre aquí](Curso_R_Epi_abr_2019.html).
+
+* Presentación sobre análisis de datos categóricos (mayo 2019) [Entre aquí](pres_DatosCateg.html)
+
+
+
+
+
