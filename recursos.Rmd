@@ -11,7 +11,7 @@
 
 <br>
 
-#### [Talleres y Cursos](www.paguzmang.github.io/TalleresCursos)
+#### [Talleres y Cursos](https://paguzmang.github.io/TalleresCursos/)
 
 
 
