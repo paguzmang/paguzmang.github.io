@@ -11,7 +11,11 @@
 
 <br>
 
+<<<<<<< HEAD
 #### [Talleres y Cursos](https://paguzmang.github.io/TalleresCursos/)
+=======
+#### [Talleres y Cursos](paguzmang.github.io/TalleresCursos)
+>>>>>>> 3117787d51540335a90c1bbdce427ab5ad4c29fb
 
 
 
