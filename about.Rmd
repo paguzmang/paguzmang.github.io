@@ -1,0 +1,10 @@
+<br>
+<br>
+
+#### Sobre esta website
+
+* El material de esta website fue generado usando [`Rmarkdown`](https://rmarkdown.rstudio.com/lesson-13.html) desde `RStudio`. Agredezco al equipo de `RStudio` por el enorme y bonito trabajo detras de sus aplicaciones y por ponerlas a disposición del público.
+
+* El alojamiento (hosting) web lo realizo desde mi cuenta de oneDrive usando [DriveToWeb](https://drv.tw/).
+
+* Agredezco también a [Emely C. Zabor](http://www.emilyzabor.com/) por su tutorial sobre montaje de páginas web con `rmarkdown`, del cual tome algunas ideas y estilos.
