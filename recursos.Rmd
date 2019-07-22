@@ -6,7 +6,7 @@
 
 * Página del [`RStudio`](https://www.rstudio.com/): https://www.rstudio.com/ 
 
-* Instrucciones para instalar `R` y `RStudio`: [Descargar](descargas/Guia_instalacion_software R_RStudio.pdf)
+* Instrucciones para instalar `R` y `RStudio`: [Descargar](Guia_instalacion_software R_RStudio.pdf)
 
 
 <br>
